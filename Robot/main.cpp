@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <FEHUtility.h>
 #include <FEHLCD.h>
 #include <FEHSD.h>
@@ -6,7 +7,23 @@
 #include <FEHIO.h>
 #include <FEHRPS.h>
 
+=======
+#include <robot.h>
+>>>>>>> paul
 #include <math.h>
+#include <task.h>
+#include <drive.h>
+#include <waitfortouch.h>
+#include <waitforlight.h>
+#include <end.h>
+#include <orient.h>
+#include <moveservo.h>
+#include <drivedistance.h>
+#include <readlight.h>
+#include <depositcore.h>
+#include <taskexecutor.h>
+#include <gotox.h>
+#include <gotoy.h>
 
 #include "worldstate.h"
 
@@ -18,18 +35,9 @@ using namespace std;
 #define CDSMIN 0.0
 #define CDSMAX 3.3
 
-#define ENCODER_DRIVE 0
-#define BUTTON_DRIVE 1
-#define RPS_DRIVE 2
-#define BUTTON_PRESS 3
-#define WAIT_FOR_LIGHT 4
-
-#define PI 3.14159265
-#define COUNT_RATIO 33.7408479355
-#define COUNTS_PER_DEGREE 2.09055555556
-
 #define MIMIMUM_POWER 15
 
+<<<<<<< HEAD
 #define POWER_RATIO 1.4
 #define DEGREE_RATIO 1.02
 
@@ -47,164 +55,126 @@ DigitalInputPin back_left_bumper(FEHIO::P1_3);
 
 DigitalEncoder right_encoder(FEHIO::P0_2);
 DigitalEncoder left_encoder(FEHIO::P0_3);
+=======
+#define POWER_RATIO 1
+#define DEGREE_RATIO 1
+>>>>>>> paul
 
-AnalogInputPin cds_cell(FEHIO::P0_0);
+Robot robot;
+TaskExecutor executor;
 
-void drive_forward(int percent)
+int main(void)
 {
-    right_motor.SetPercent(-percent);
-    left_motor.SetPercent(percent);
-    while (front_right_bumper.Value() || front_left_bumper.Value());
-    right_motor.Stop();
-    left_motor.Stop();
-    Sleep(.25);
-}
+    RPS.InitializeTouchMenu();
 
-void drive_backward(int percent, float time)
-{
-    right_motor.SetPercent(percent);
-    left_motor.SetPercent(-percent);
-    Sleep(time);
-}
+    LCD.Clear();
 
-void turn_backward(int right_percent, int left_percent)
-{
-    right_motor.SetPercent(right_percent);
-    left_motor.SetPercent(left_percent);
-    while (back_right_bumper.Value() || back_left_bumper.Value());
-    right_motor.Stop();
-    left_motor.Stop();
-    Sleep(.25);
-}
-
-float go_to(float x_target, float y_target, float precision)
-{
-    float x = RPS.X();
-    float y = RPS.Y();
-    while (pow(x - x_target, 2) + pow(y - y_target, 2) < pow(precision, 2))
+    while (false)
     {
-        x = RPS.X();
-        y = RPS.Y();
-
+        robot.Update();
+        LCD.Clear();
+        LCD.WriteLine(robot.GetX());
+        LCD.WriteLine(robot.GetY());
+        LCD.WriteLine(robot.GetHeading());
+        Sleep(.1);
     }
 
-    return pow(x - x_target, 2) + pow(y - y_target, 2) < pow(precision, 2);
-}
+    /*Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new Drive(6, 23),
+        new Orient(0),
+        new ReadLight(),
+        new Drive(14, 20),
+        new Drive(20, 50),
+        new Orient(320),
+        new MoveServo(85),
+        new DriveDistance(20),
+        new DriveDistance(-15),
+        new MoveServo(180),
+        new Drive(20, 18),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(10),
+        new MoveServo(85),
+        new DriveDistance(-10),
+        new MoveServo(180),
+        new Drive(9, 20),
+        new Drive(5, 25),
+        new End()};*/
 
-void encoder_drive(float distance, float percent)
-{
-    percent *= POWER_RATIO;
+    /*Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new DriveDistance(-10),
+        new Orient(0),
+        new DriveDistance(-3),
+        new ReadLight(),
+        new DriveDistance(-7),
+        new Orient(90),
+        new DriveDistance(-30),
+        new Orient(320),
+        new MoveServo(85),
+        new DriveDistance(20),
+        new DriveDistance(-15),
+        new MoveServo(180),
+        new Orient(90),
+        new DriveDistance(30),
+        new Orient(0),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(10),
+        new MoveServo(85),
+        new DriveDistance(-10),
+        new MoveServo(180),
+        new Orient(0),
+        new DriveDistance(5),
+        new Orient(90),
+        new DriveDistance(-10),
+        new End()};*/
 
-    int counts = distance * COUNT_RATIO;
+    Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new GoToY(18, 30),
+        new GoToX(10, -30),
+        new GoToX(11, 30),
+        new ReadLight(),
+        new GoToX(20, 30),
+        new GoToY(40, -50),
+        new GoToX(27, 30),
+        new GoToY(45, 30),
+        new Orient(315),
+        new MoveServo(80),
+        new DriveDistance(15),
+        new Orient(315),
+        new DriveDistance(25),
+        new DriveDistance(-17),
+        new MoveServo(180),
+        new GoToY(40, 30),
+        new GoToX(17, 30),
+        new GoToY(23, 30),
+        new GoToY(18, 30),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(15),
+        new MoveServo(85),
+        new DriveDistance(-7),
+        new MoveServo(180),
+        new GoToX(28, 30),
+        new GoToY(10, 30),
+        new End()};
 
-    right_encoder.ResetCounts();
-    left_encoder.ResetCounts();
 
-    int current_counts = 0;
-    while(current_counts < counts)
+    Task* task = tasks[0];
+    for (int task_number = 0; !task->isEnd(); task_number++)
     {
-        int right_counts = right_encoder.Counts();
-        int left_counts = left_encoder.Counts();
-        current_counts = (left_counts + right_counts) / 2.;
-        float percent_complete = (float) current_counts / counts;
-        float power_multiplier = exp(-(3*percent_complete-1)*(3*percent_complete-1));
-        float power = power_multiplier * percent;
+        task = tasks[task_number];
 
-        if (power < MIMIMUM_POWER && power > 0)
-        {
-            power = MIMIMUM_POWER;
-        }
-        if (power > -MIMIMUM_POWER && power < 0)
-        {
-            power = -MIMIMUM_POWER;
-        }
-
-        power = percent;
-
-        LCD.WriteLine(power);
-
-        if (left_counts > right_counts)
-        {
-            left_motor.SetPercent(power * .9);
-        }
-        else
-        {
-            left_motor.SetPercent(power);
-        }
-
-        if (right_counts > left_counts)
-        {
-            right_motor.SetPercent(-power * .9);
-        }
-        else
-        {
-            right_motor.SetPercent(-power);
-        }
-    }
-
-    right_motor.Stop();
-    left_motor.Stop();
-}
-
-void encoder_turn_in_place(float degrees, float percent)
-{
-    percent *= POWER_RATIO;
-    degrees *= DEGREE_RATIO;
-
-    float counts = COUNTS_PER_DEGREE * degrees;
-    if (counts < 0)
-    {
-        counts *= -1;
-    }
-
-    right_encoder.ResetCounts();
-    left_encoder.ResetCounts();
-
-    int current_counts = 0;
-    while(current_counts < counts)
-    {
-        int right_counts = right_encoder.Counts();
-        int left_counts = left_encoder.Counts();
-        current_counts = (left_counts + right_counts) / 2.;
-
-        float percent_complete = (float) current_counts / counts;
-        float power_multiplier = exp(-(3*percent_complete-1)*(3*percent_complete-1));
-        float power = power_multiplier * percent;
-        if (power < MIMIMUM_POWER && power > 0)
-        {
-            power = MIMIMUM_POWER;
-        }
-        if (power > -MIMIMUM_POWER && power < 0)
-        {
-            power = -MIMIMUM_POWER;
-        }
-
-        power = percent;
-
-        if (degrees < 0)
-        {
-            power *= -1;
-        }
-
-        if (left_counts > right_counts)
-        {
-            left_motor.SetPercent(power * .9);
-        }
-        else
-        {
-            left_motor.SetPercent(power);
-        }
-
-        if (right_counts > left_counts)
-        {
-            right_motor.SetPercent(power * .9);
-        }
-        else
-        {
-            right_motor.SetPercent(power);
-        }
-    }
-
+<<<<<<< HEAD
     right_motor.Stop();
     left_motor.Stop();
 }
@@ -258,6 +228,13 @@ int main(void)
     SD.CloseLog();
     LCD.WriteLine("Log closed");
 
+=======
+        executor.Execute(robot, task);
+
+        Sleep(1.0);
+    }
+
+>>>>>>> paul
     return 0;
 }
 
