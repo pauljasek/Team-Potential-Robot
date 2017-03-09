@@ -53,7 +53,7 @@ bool GoToX::Run(Robot& robot)
 
     if (abs(distance) > 1)
     {
-        robot.DriveStraight(distance*3/4.0, Power);
+        robot.DriveStraight(distance*3/5.0, Power);
         return false;
     }
     else

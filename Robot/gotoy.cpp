@@ -51,7 +51,7 @@ bool GoToY::Run(Robot& robot)
         LCD.WriteLine(distance);
         LCD.WriteLine(Power);
         LCD.WriteLine(positive);
-        robot.DriveStraight(distance*3/4.0, Power);
+        robot.DriveStraight(distance*3/5.0, Power);
         //robot.DriveStraight(1, Power);
         return false;
     }

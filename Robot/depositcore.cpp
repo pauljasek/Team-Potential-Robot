@@ -26,7 +26,7 @@ void DepositCore::Init(Robot& robot)
     TaskExecutor executor;
     if (STATE == BLUE_LIGHT)
     {
-        executor.Execute(robot, new GoToX(14, 30));
+        executor.Execute(robot, new GoToX(15, 30));
     }
     else
     {

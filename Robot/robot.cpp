@@ -5,7 +5,7 @@
 #define RM -1
 #define LM 1
 #define LCM 1
-#define RCM 1.4
+#define RCM 1
 #define CORRECTION_MULTIPLIER .75
 
 #include "robot.h"
