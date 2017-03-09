@@ -5,7 +5,7 @@
 #define RM -1
 #define LM 1
 #define LCM 1
-#define RCM 1.05
+#define RCM 1.4
 #define CORRECTION_MULTIPLIER .75
 
 #include "robot.h"
@@ -71,6 +71,16 @@ void Robot::DriveStraight(float inches, float percent)
     LeftMotor.Stop();
 }
 
+void Robot::SetRightPercent(float percent)
+{
+    RightMotor.SetPercent(RM * percent);
+}
+
+void Robot::SetLeftPercent(float percent)
+{
+    LeftMotor.SetPercent(LM * percent);
+}
+
 void Robot::Turn(float degrees, float percent)
 {
     if (degrees < 0)
@@ -109,6 +119,7 @@ void Robot::Turn(float degrees, float percent)
     RightMotor.Stop();
     LeftMotor.Stop();
 }
+
 
 float Robot::GetX()
 {

@@ -7,6 +7,10 @@ drivedistance.cpp
 drivedistance.h
 end.cpp
 end.h
+gotox.cpp
+gotox.h
+gotoy.cpp
+gotoy.h
 motor.cpp
 motor.h
 moveservo.cpp
@@ -22,6 +26,8 @@ servo.cpp
 servo.h
 task.h
 main.cpp
+taskexecutor.cpp
+taskexecutor.h
 waitforlight.cpp
 waitforlight.h
 waitfortouch.cpp

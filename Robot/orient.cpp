@@ -31,27 +31,27 @@ bool Orient::Run(Robot& robot)
 
     if (heading_difference < -1)
     {
-        if (heading_difference > -10)
+        if (heading_difference > -15)
         {
             robot.Turn(-.5,20);
+            Sleep(.1);
         }
         else
         {
-            robot.Turn(-3, 20);
+            robot.Turn(-2, 20);
         }
-        Sleep(.1);
     }
     else if (heading_difference > 1)
     {
-        if (heading_difference < 10)
+        if (heading_difference < 15)
         {
             robot.Turn(.5,20);
+            Sleep(.1);
         }
         else
         {
-            robot.Turn(3,20);
+            robot.Turn(2,20);
         }
-        Sleep(.1);
     }
     else
     {

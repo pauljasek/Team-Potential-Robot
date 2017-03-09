@@ -10,6 +10,9 @@
 #include <drivedistance.h>
 #include <readlight.h>
 #include <depositcore.h>
+#include <taskexecutor.h>
+#include <gotox.h>
+#include <gotoy.h>
 
 #define SERVOMIN 500
 #define SERVOMAX 2286
@@ -23,6 +26,7 @@
 #define DEGREE_RATIO 1
 
 Robot robot;
+TaskExecutor executor;
 
 int main(void)
 {
@@ -40,7 +44,7 @@ int main(void)
         Sleep(.1);
     }
 
-    Task* tasks[] = {
+    /*Task* tasks[] = {
         new MoveServo(180),
         new WaitForTouch(),
         new WaitForLight(),
@@ -63,7 +67,7 @@ int main(void)
         new MoveServo(180),
         new Drive(9, 20),
         new Drive(5, 25),
-        new End()};
+        new End()};*/
 
     /*Task* tasks[] = {
         new MoveServo(180),
@@ -96,22 +100,47 @@ int main(void)
         new DriveDistance(-10),
         new End()};*/
 
+    Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new GoToY(18, 30),
+        new GoToX(10, -30),
+        new GoToY(15, 30),
+        new GoToX(14, 30),
+        new ReadLight(),
+        new GoToX(20, 30),
+        new GoToY(40, -70),
+        new GoToX(27, 30),
+        new GoToY(45, 30),
+        new Orient(320),
+        new MoveServo(80),
+        new DriveDistance(15),
+        new Orient(320),
+        new DriveDistance(25),
+        new DriveDistance(-25),
+        new MoveServo(180),
+        new GoToY(40, 30),
+        new GoToX(19, 30),
+        new GoToY(23, 30),
+        new GoToY(18, 30),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(20),
+        new MoveServo(85),
+        new DriveDistance(-7),
+        new MoveServo(180),
+        new GoToX(5, 30),
+        new GoToY(35, 30),
+        new End()};
+
+
     Task* task = tasks[0];
     for (int task_number = 0; !task->isEnd(); task_number++)
     {
         task = tasks[task_number];
 
-        robot.Update();
-        task->Init(robot);
-
-        robot.Update();
-        while (!task->Run(robot))
-        {
-            robot.Update();
-        }
-
-        robot.Update();
-        task->Finish(robot);
+        executor.Execute(robot, task);
 
         Sleep(1.0);
     }

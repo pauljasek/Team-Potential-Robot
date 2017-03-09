@@ -15,7 +15,8 @@
  Drivers/spi.h ../fehproteusfirmware/Startup/derivative.h \
  Libraries/FEHUtility.h Libraries/LCDColors.h Libraries/FEHIO.h \
  Drivers/adc16.h Libraries/FEHServo.h Libraries/FEHRPS.h \
- Drivers/FEHXBee.h ../worldstate.h ..\/drive.h ..\/drivedistance.h
+ Drivers/FEHXBee.h ../worldstate.h ..\/drive.h ..\/drivedistance.h \
+ ../taskexecutor.h ../task.h ../gotox.h ../task.h ../gotoy.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -78,3 +79,13 @@ Drivers/FEHXBee.h:
 ..\/drive.h:
 
 ..\/drivedistance.h:
+
+../taskexecutor.h:
+
+../task.h:
+
+../gotox.h:
+
+../task.h:
+
+../gotoy.h:

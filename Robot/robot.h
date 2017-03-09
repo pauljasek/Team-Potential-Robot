@@ -14,6 +14,8 @@ class Robot
 {
 public:
     Robot();
+    void SetRightPercent(float);
+    void SetLeftPercent(float);
     void DriveStraight(float, float);
     void Turn(float, float);
     float GetX();

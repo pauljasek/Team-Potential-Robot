@@ -10,7 +10,7 @@ void ReadLight::Init(Robot& robot)
 
 bool ReadLight::Run(Robot& robot)
 {
-    if(robot.GetCdSCellValue() < .8)
+    if(robot.GetCdSCellValue() < 1)
     {
         robot.RedLight = true;
     }

@@ -3,6 +3,9 @@
 
 #include "depositcore.h"
 #include "drivedistance.h"
+#include <taskexecutor.h>
+#include <gotox.h>
+#include <gotoy.h>
 
 DepositCore::DepositCore()
 {
@@ -20,46 +23,24 @@ void DepositCore::Init(Robot& robot)
         STATE = BLUE_LIGHT;
     }
 
-    Task* moveTask;
+    TaskExecutor executor;
     if (STATE == BLUE_LIGHT)
     {
-        moveTask = new DriveDistance(5);
+        executor.Execute(robot, new GoToX(14, 30));
     }
     else
     {
-        moveTask = new DriveDistance(12);
+        executor.Execute(robot, new GoToX(8, 30));
     }
-    moveTask->Init(robot);
 }
 
 bool DepositCore::Run(Robot& robot)
 {
-    Task* moveTask;
-    if (STATE == BLUE_LIGHT)
-    {
-        moveTask = new DriveDistance(5);
-    }
-    else
-    {
-        moveTask = new DriveDistance(12);
-    }
-
-    return moveTask->Run(robot);
+    return true;
 }
 
 void DepositCore::Finish(Robot& robot)
 {
-    Task* moveTask;
-    if (STATE == BLUE_LIGHT)
-    {
-        moveTask = new DriveDistance(5);
-    }
-    else
-    {
-        moveTask = new DriveDistance(12);
-    }
-
-    moveTask->Finish(robot);
 }
 
 bool DepositCore::isEnd()
