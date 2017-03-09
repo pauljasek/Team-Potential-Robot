@@ -9,6 +9,7 @@
 #include <moveservo.h>
 #include <drivedistance.h>
 #include <readlight.h>
+#include <depositcore.h>
 
 #define SERVOMIN 500
 #define SERVOMAX 2286
@@ -42,26 +43,58 @@ int main(void)
     Task* tasks[] = {
         new MoveServo(180),
         new WaitForTouch(),
-        //new WaitForLight(),
+        new WaitForLight(),
         new Drive(6, 23),
         new Orient(0),
         new ReadLight(),
-        new Drive(18, 20),
+        new Drive(14, 20),
         new Drive(20, 50),
         new Orient(320),
         new MoveServo(85),
         new DriveDistance(20),
-        new DriveDistance(-20),
+        new DriveDistance(-15),
         new MoveServo(180),
-        new Drive(16, 22),
+        new Drive(20, 18),
+        new DepositCore(),
         new Orient(90),
         new DriveDistance(10),
         new MoveServo(85),
         new DriveDistance(-10),
         new MoveServo(180),
-        new Drive(6, 20),
+        new Drive(9, 20),
         new Drive(5, 25),
         new End()};
+
+    /*Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new DriveDistance(-10),
+        new Orient(0),
+        new DriveDistance(-3),
+        new ReadLight(),
+        new DriveDistance(-7),
+        new Orient(90),
+        new DriveDistance(-30),
+        new Orient(320),
+        new MoveServo(85),
+        new DriveDistance(20),
+        new DriveDistance(-15),
+        new MoveServo(180),
+        new Orient(90),
+        new DriveDistance(30),
+        new Orient(0),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(10),
+        new MoveServo(85),
+        new DriveDistance(-10),
+        new MoveServo(180),
+        new Orient(0),
+        new DriveDistance(5),
+        new Orient(90),
+        new DriveDistance(-10),
+        new End()};*/
 
     Task* task = tasks[0];
     for (int task_number = 0; !task->isEnd(); task_number++)

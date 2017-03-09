@@ -11,7 +11,7 @@ void DriveDistance::Init(Robot& robot)
 
 bool DriveDistance::Run(Robot& robot)
 {
-    robot.DriveStraight(Distance, 45);
+    robot.DriveStraight(Distance, 35);
     return true;
 }
 

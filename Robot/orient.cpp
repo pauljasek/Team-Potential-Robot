@@ -29,15 +29,29 @@ bool Orient::Run(Robot& robot)
         heading_difference += 360;
     }
 
-    if (heading_difference < -1.5)
+    if (heading_difference < -1)
     {
-        robot.RightMotor.SetPercent(-RM * 15);
-        robot.LeftMotor.SetPercent(LM * 15);
+        if (heading_difference > -10)
+        {
+            robot.Turn(-.5,20);
+        }
+        else
+        {
+            robot.Turn(-3, 20);
+        }
+        Sleep(.1);
     }
-    else if (heading_difference > 1.5)
+    else if (heading_difference > 1)
     {
-        robot.RightMotor.SetPercent(RM * 15);
-        robot.LeftMotor.SetPercent(-LM * 15);
+        if (heading_difference < 10)
+        {
+            robot.Turn(.5,20);
+        }
+        else
+        {
+            robot.Turn(3,20);
+        }
+        Sleep(.1);
     }
     else
     {

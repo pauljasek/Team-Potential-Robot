@@ -1,4 +1,6 @@
 component.h
+depositcore.cpp
+depositcore.h
 drive.cpp
 drive.h
 drivedistance.cpp

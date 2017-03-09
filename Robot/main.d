@@ -29,7 +29,8 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/cerrno \
  C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h ../task.h ../drive.h \
  ../task.h ../waitfortouch.h ../waitforlight.h ../end.h ../orient.h \
- ../moveservo.h ../drivedistance.h ../readlight.h
+ ../moveservo.h ../drivedistance.h ../readlight.h ../depositcore.h \
+ ../drive.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -128,3 +129,7 @@ C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h:
 ../drivedistance.h:
 
 ../readlight.h:
+
+../depositcore.h:
+
+../drive.h:
