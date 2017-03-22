@@ -3,6 +3,13 @@
 DriveDistance::DriveDistance(float distance)
 {
     Distance = distance;
+    Percent = 40;
+}
+
+DriveDistance::DriveDistance(float distance ,float percent)
+{
+    Distance = distance;
+    Percent = percent;
 }
 
 void DriveDistance::Init(Robot& robot)
@@ -11,7 +18,7 @@ void DriveDistance::Init(Robot& robot)
 
 bool DriveDistance::Run(Robot& robot)
 {
-    robot.DriveStraight(Distance, 40);
+    robot.DriveStraight(Distance, Percent);
     return true;
 }
 

@@ -38,13 +38,13 @@ int main(void)
     {
         robot.Update();
         LCD.Clear();
-        LCD.WriteLine(robot.GetX());
-        LCD.WriteLine(robot.GetY());
-        LCD.WriteLine(robot.GetHeading());
+        LCD.WriteLine(robot.RightEncoder.Counts());
+        LCD.WriteLine(robot.LeftEncoder.Counts());
         Sleep(.1);
     }
 
-    /*Task* tasks[] = {
+    /*
+    Task* tasks[] = {
         new MoveServo(180),
         new WaitForTouch(),
         new WaitForLight(),
@@ -100,37 +100,86 @@ int main(void)
         new DriveDistance(-10),
         new End()};*/
 
-    Task* tasks[] = {
+    /*Task* tasks[] = {
         new MoveServo(180),
         new WaitForTouch(),
         new WaitForLight(),
-        new GoToY(18, 30),
-        new GoToX(10, -30),
-        new GoToX(11, 30),
+        new GoToY(16, 25),
+        new GoToX(10, -25),
+        new DriveDistance(4),
         new ReadLight(),
-        new GoToX(20, 30),
-        new GoToY(40, -50),
-        new GoToX(27, 30),
-        new GoToY(45, 30),
-        new Orient(315),
-        new MoveServo(80),
-        new DriveDistance(15),
-        new Orient(315),
+        new GoToX(18, 25),
+        new GoToY(41, -45),
+        new GoToX(27, 25),
+        new GoToY(48.2, 25),
+        new Orient(318),
+        new MoveServo(75),
+        new DriveDistance(13),
+        new Orient(318),
         new DriveDistance(25),
-        new DriveDistance(-17),
+        new DriveDistance(-13, 20),
         new MoveServo(180),
-        new GoToY(40, 30),
-        new GoToX(17, 30),
-        new GoToY(23, 30),
-        new GoToY(18, 30),
+        new GoToY(40, 25),
+        new GoToX(17, 25),
+        new GoToY(20, 25),
+        new GoToY(18, 25),
         new DepositCore(),
         new Orient(90),
         new DriveDistance(15),
         new MoveServo(85),
         new DriveDistance(-7),
         new MoveServo(180),
-        new GoToX(28, 30),
-        new GoToY(10, 30),
+        new GoToX(28, 25),
+        new GoToY(10, 25),
+        new End()};*/
+
+    Task* tasks[] = {
+        new MoveServo(180),
+        new WaitForTouch(),
+        new WaitForLight(),
+        new GoToY(16, 25),
+        new GoToX(10, -25),
+        new DriveDistance(4, 20),
+        new ReadLight(),
+        new GoToX(25, 25),
+        new GoToY(14.5, 25),
+        new Orient(170),
+        new DriveDistance(15, 35),
+        new GoToX(18, -25),
+        new GoToY(15, 25),
+        new GoToX(18, 25),
+        new GoToY(41, -45),
+        new GoToX(27, 25),
+        new Orient(90),
+        new DriveDistance(-40, 45),
+        new DriveDistance(18, 20),
+        new GoToX(27, 25),
+        new GoToY(49.2, 25),
+        new Orient(318),
+        new MoveServo(75),
+        new DriveDistance(13),
+        new Orient(318),
+        new DriveDistance(25),
+        new DriveDistance(-20, 20),
+        new MoveServo(180),
+        new GoToY(42, 25),
+        new GoToX(17, 25),
+        new Orient(180),
+        new DriveDistance(-15, 30),
+        new DriveDistance(15, 20),
+        new GoToY(40, 25),
+        new GoToX(17, 25),
+        new GoToY(20, 25),
+        new DepositCore(),
+        new Orient(90),
+        new DriveDistance(15),
+        new MoveServo(85),
+        new DriveDistance(-7),
+        new MoveServo(180),
+        new GoToY(15, 30),
+        new GoToX(4, 25),
+        new Orient(90),
+        new DriveDistance(-20, 35),
         new End()};
 
 

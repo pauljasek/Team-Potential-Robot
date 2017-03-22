@@ -20,17 +20,15 @@ void GoToX::Init(Robot& robot) {
     TaskExecutor executor;
 
     float distance = X - robot.GetX();
-    if (abs(distance) > 1)
+
+    if (distance * Power < 0)
     {
-        if (distance * Power < 0)
-        {
-            positive = true;
-            executor.Execute(robot, new Orient(0));
-        }
-        else
-        {
-            executor.Execute(robot, new Orient(180));
-        }
+        positive = true;
+        executor.Execute(robot, new Orient(0));
+    }
+    else
+    {
+        executor.Execute(robot, new Orient(180));
     }
 
     if (Power < 0)
@@ -51,9 +49,15 @@ bool GoToX::Run(Robot& robot)
 {
     float distance = X - robot.GetX();
 
-    if (abs(distance) > 1)
+    if (abs(distance) > 5)
     {
         robot.DriveStraight(distance*3/5.0, Power);
+        return false;
+    }
+    else if (abs(distance) > .2)
+    {
+        robot.DriveStraight(distance*3/5.0, 15 * Power/abs(Power));
+        Sleep(.1);
         return false;
     }
     else

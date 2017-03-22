@@ -3,7 +3,7 @@
 #define COUNTS_PER_DEGREE 2.09055555556
 
 #define RM -1
-#define LM 1
+#define LM 1.1
 #define LCM 1
 #define RCM 1
 #define CORRECTION_MULTIPLIER .75
@@ -14,7 +14,7 @@
 Robot::Robot()
     : RightMotor(FEHMotor::Motor1, 12.0),
       LeftMotor(FEHMotor::Motor0, 12.0),
-      Servo(FEHServo::Servo7),
+      Servo(FEHServo::Servo5),
       RightEncoder(FEHIO::P0_0),
       LeftEncoder(FEHIO::P0_2),
       RightOptosensor(FEHIO::P1_1),

@@ -15,17 +15,14 @@ void GoToY::Init(Robot& robot) {
     TaskExecutor executor;
 
     float distance = Y - robot.GetY();
-    if (abs(distance) > 1)
+    if (distance * Power < 0)
     {
-        if (distance * Power < 0)
-        {
-            executor.Execute(robot, new Orient(90));
-            positive = true;
-        }
-        else
-        {
-            executor.Execute(robot, new Orient(270));
-        }
+        executor.Execute(robot, new Orient(90));
+        positive = true;
+    }
+    else
+    {
+        executor.Execute(robot, new Orient(270));
     }
 
     if (Power < 0)
@@ -45,14 +42,15 @@ void GoToY::Init(Robot& robot) {
 bool GoToY::Run(Robot& robot)
 {
     float distance = Y - robot.GetY();
-    if (abs(distance) > 1)
+    if (abs(distance) > 5)
     {
-        LCD.Clear();
-        LCD.WriteLine(distance);
-        LCD.WriteLine(Power);
-        LCD.WriteLine(positive);
         robot.DriveStraight(distance*3/5.0, Power);
-        //robot.DriveStraight(1, Power);
+        return false;
+    }
+    if (abs(distance) > .2)
+    {
+        robot.DriveStraight(distance*3/5.0, 15 * Power/abs(Power));
+        Sleep(.1);
         return false;
     }
     else

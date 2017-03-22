@@ -15,10 +15,12 @@ bool ReadLight::Run(Robot& robot)
     if(robot.GetCdSCellValue() < 1)
     {
         robot.RedLight = true;
+        LCD.WriteLine("Red");
     }
     else
     {
         robot.RedLight = false;
+        LCD.WriteLine("Blue");
     }
     return true;
 
