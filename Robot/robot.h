@@ -9,6 +9,7 @@
 #include <FEHServo.h>
 #include <FEHRPS.h>
 #include <worldstate.h>
+#include <math.h>
 
 class Robot
 {
@@ -22,6 +23,8 @@ public:
     float GetY();
     float GetHeading();
     float GetCdSCellValue();
+    void SetRedLight(bool);
+    bool GetRedLight();
     void Update();
     FEHMotor RightMotor;
     FEHMotor LeftMotor;
@@ -38,12 +41,12 @@ public:
     DigitalInputPin FLBumper;
     DigitalInputPin ArmBumper;
     DigitalInputPin SideBumper;
-    bool RedLight;
 private:
     float X;
     float Y;
     float Heading;
     float CdSCellVallue;
+    bool RedLight;
 };
 
 #endif // ROBOT_H

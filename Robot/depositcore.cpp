@@ -14,7 +14,7 @@ DepositCore::DepositCore()
 
 void DepositCore::Init(Robot& robot)
 {
-    if (robot.RedLight)
+    if (robot.GetRedLight())
     {
         STATE = RED_LIGHT;
     }

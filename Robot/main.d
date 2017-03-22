@@ -27,10 +27,16 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/math_config.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/arm/math.ARM.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/cerrno \
- C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h ../task.h ../drive.h \
- ../task.h ../waitfortouch.h ../waitforlight.h ../end.h ../orient.h \
- ../moveservo.h ../drivedistance.h ../readlight.h ../depositcore.h \
- ../drive.h ../taskexecutor.h ../gotox.h ../gotoy.h
+ C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h ../taskexecutor.h \
+ ../task.h ../drive.h ../task.h ../waitfortouch.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/string.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/cstring \
+ C:\fehqt\Proteus/EWL/EWL_C/include/null.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/size_t.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/ewl_rsize_t.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/string_api.h ../waitforlight.h \
+ ../end.h ../orient.h ../moveservo.h ../drivedistance.h ../readlight.h \
+ ../depositcore.h ../drive.h ../gotox.h ../gotoy.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -110,6 +116,8 @@ C:\fehqt\Proteus/EWL/EWL_C/include/cerrno:
 
 C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h:
 
+../taskexecutor.h:
+
 ../task.h:
 
 ../drive.h:
@@ -117,6 +125,18 @@ C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h:
 ../task.h:
 
 ../waitfortouch.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/string.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/cstring:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/null.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/size_t.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/ewl_rsize_t.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/string_api.h:
 
 ../waitforlight.h:
 
@@ -133,8 +153,6 @@ C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h:
 ../depositcore.h:
 
 ../drive.h:
-
-../taskexecutor.h:
 
 ../gotox.h:
 

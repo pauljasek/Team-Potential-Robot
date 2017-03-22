@@ -3,11 +3,14 @@
 
 #include "task.h"
 #include <FEHLCD.h>
+#include <string.h>
+
+using namespace std;
 
 class WaitForTouch : public Task
 {
 public:
-    WaitForTouch();
+    WaitForTouch(char*);
     void Init(Robot&);
     bool Run(Robot&);
     void Finish(Robot&);
@@ -15,6 +18,7 @@ public:
 private:
     bool touched;
     float x, y;
+    char* DisplayText;
 };
 
 #endif // WAITFORTOUCH_H

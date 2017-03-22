@@ -1,17 +1,33 @@
 #include "waitfortouch.h"
 
-WaitForTouch::WaitForTouch()
+using namespace std;
+
+/*
+ * Waits for LCD screen to be touched.
+ */
+
+WaitForTouch::WaitForTouch(char* s)
 {
+    /*
+     * Initializes variables.
+     */
     touched = false;
+    DisplayText = s;
 }
 
 void WaitForTouch::Init(Robot& robot)
 {
-    LCD.WriteLine("Waiting for Touch ...");
+    /*
+     * Displays message to screen.
+     */
+    LCD.WriteLine(DisplayText);
 }
 
 bool WaitForTouch::Run(Robot& robot)
 {
+    /*
+     * Waits for touch and release.
+     */
     if (touched)
     {
         if (!LCD.Touch(&x, &y))
@@ -31,6 +47,9 @@ bool WaitForTouch::Run(Robot& robot)
 
 void WaitForTouch::Finish(Robot& robot)
 {
+    /*
+     * Displays completion notification.
+     */
     LCD.WriteLine("Touched.");
 }
 

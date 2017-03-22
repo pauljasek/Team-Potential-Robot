@@ -11,8 +11,6 @@ gotox.cpp
 gotox.h
 gotoy.cpp
 gotoy.h
-motor.cpp
-motor.h
 moveservo.cpp
 moveservo.h
 orient.cpp
