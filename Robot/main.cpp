@@ -82,7 +82,7 @@ int main(void)
         new DriveDistance(18, 25),
         // Navigate to Core
         new GoToX(27, 25),
-        new GoToY(49.2, 25),
+        new GoToY(48.5, 25),
         new Orient(318),
         new MoveServo(75),
         new DriveDistance(13,20),
@@ -92,11 +92,9 @@ int main(void)
         new DriveDistance(-20, 20),
         new MoveServo(180),
         // Pull lever
-        new GoToY(42, 25),
-        new GoToX(17, 25),
+        new GoToY(44, 25),
         new Orient(180),
-        new DriveDistance(-5, 30),
-        new DriveTime(4, 25),
+        new DriveTime(4, -25),
         new DriveDistance(15, 20),
         // Drve downramp
         new GoToY(40, 25),
