@@ -15,7 +15,7 @@
 /*
  * Encoder count adjustmnet factors.
  */
-#define LCM 1
+#define LCM 1.01
 #define RCM 1
 
 /*
