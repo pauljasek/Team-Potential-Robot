@@ -5,6 +5,8 @@ drive.cpp
 drive.h
 drivedistance.cpp
 drivedistance.h
+drivetime.cpp
+drivetime.h
 end.cpp
 end.h
 gotox.cpp

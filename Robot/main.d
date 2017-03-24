@@ -36,7 +36,7 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/ewl_rsize_t.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/string_api.h ../waitforlight.h \
  ../end.h ../orient.h ../moveservo.h ../drivedistance.h ../readlight.h \
- ../depositcore.h ../drive.h ../gotox.h ../gotoy.h
+ ../depositcore.h ../drive.h ../gotox.h ../gotoy.h ../drivetime.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -157,3 +157,5 @@ C:\fehqt\Proteus/EWL/EWL_C/include/string_api.h:
 ../gotox.h:
 
 ../gotoy.h:
+
+../drivetime.h:

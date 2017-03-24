@@ -141,6 +141,72 @@ void Robot::DriveStraight(float inches, float percent)
     LeftMotor.Stop();
 }
 
+/*
+ * Basic functionality for driving straight a certain amount of time at a given power level.
+ */
+void Robot::DriveTime(float time, float percent)
+{
+    /*
+     * Account for negative values.
+     */
+    percent *= -1;
+
+    /*
+     * Reset encoder counts.
+     */
+    RightEncoder.ResetCounts();
+    LeftEncoder.ResetCounts();
+
+    /*
+     * Create variables to store number of counts.
+     */
+    int r_counts = RightEncoder.Counts() * RCM;
+    int l_counts = LeftEncoder.Counts() * LCM;
+
+    float t = 0;
+
+    /*
+     * While average of counts is less than calculated counts.
+     */
+    while (t < time * 10)
+    {
+        /*
+         * Update count variables.
+         */
+        r_counts = RightEncoder.Counts() * RCM;
+        l_counts = LeftEncoder.Counts() * LCM;
+
+        /*
+         * Calculate corrected percentages.
+         */
+        float r_percent = percent;
+        float l_percent = percent;
+
+        if (r_counts < l_counts)
+        {
+            l_percent *= CORRECTION_MULTIPLIER;
+        }
+        else if (l_counts < r_counts)
+        {
+            r_percent *= CORRECTION_MULTIPLIER;
+        }
+
+        /*
+         * Apply motor percentages.
+         */
+        RightMotor.SetPercent(RM * r_percent);
+        LeftMotor.SetPercent(LM * l_percent);
+
+        t++;
+        Sleep(.1);
+    }
+    /*
+     * Stop the motors.
+     */
+    RightMotor.Stop();
+    LeftMotor.Stop();
+}
+
 
 
 /*

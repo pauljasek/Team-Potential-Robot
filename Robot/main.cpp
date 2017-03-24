@@ -19,6 +19,7 @@
 #include <depositcore.h>
 #include <gotox.h>
 #include <gotoy.h>
+#include <drivetime.h>
 
 /*
  * Main Program for 2017 FEH Robot Competition
@@ -62,28 +63,25 @@ int main(void)
         new WaitForTouch("Touch to wait for light ..."),
         new WaitForLight(),
         new GoToY(16, 25),
-        new GoToX(10, -25),
-        new DriveDistance(4, 20),
+        new GoToX(7, -25),
+        new Orient(180),
         new ReadLight(),
         new GoToX(25, 25),
-        new GoToY(14.5, 25),
-        new Orient(170),
-        new DriveDistance(15, 35),
+        new Orient(165),
+        new DriveDistance(15, 20),
         new GoToX(18, -25),
-        new GoToY(15, 25),
-        new GoToX(18, 25),
         new GoToY(41, -45),
-        new GoToX(27, 25),
+        new GoToX(26, 25),
         new Orient(90),
-        new DriveDistance(-40, 45),
-        new DriveDistance(18, 20),
+        new DriveTime(10,30),
+        new DriveDistance(18, 25),
         new GoToX(27, 25),
         new GoToY(49.2, 25),
         new Orient(318),
         new MoveServo(75),
-        new DriveDistance(13),
+        new DriveDistance(13,20),
         new Orient(318),
-        new DriveDistance(25),
+        new DriveTime(4, 20),
         new DriveDistance(-20, 20),
         new MoveServo(180),
         new GoToY(42, 25),
