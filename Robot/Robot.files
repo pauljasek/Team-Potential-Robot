@@ -28,6 +28,8 @@ task.h
 main.cpp
 taskexecutor.cpp
 taskexecutor.h
+toplevel.cpp
+toplevel.h
 waitforlight.cpp
 waitforlight.h
 waitfortouch.cpp

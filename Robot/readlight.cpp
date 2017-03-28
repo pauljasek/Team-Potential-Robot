@@ -23,8 +23,6 @@ bool ReadLight::Run(Robot& robot)
         LCD.WriteLine("Blue");
     }
     return true;
-
-    Sleep(2.0);
 }
 
 void ReadLight::Finish(Robot& robot)

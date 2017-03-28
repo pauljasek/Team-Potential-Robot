@@ -15,6 +15,7 @@ public:
     void Finish(Robot& robot);
     bool isEnd();
 private:
-    float Orientation;
+    float Orientation, previous_difference, previous_power;
+    bool waited;
 };
 #endif // ORIENT_H

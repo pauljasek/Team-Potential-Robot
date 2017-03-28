@@ -30,7 +30,7 @@ void DepositCore::Init(Robot& robot)
     }
     else
     {
-        executor.Execute(robot, new GoToX(8.5, 25));
+        executor.Execute(robot, new GoToX(6.75, 25));
     }
 }
 

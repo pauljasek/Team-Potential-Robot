@@ -20,6 +20,7 @@
 #include <gotox.h>
 #include <gotoy.h>
 #include <drivetime.h>
+#include <toplevel.h>
 
 /*
  * Main Program for 2017 FEH Robot Competition
@@ -58,7 +59,7 @@ int main(void)
      * Initialize a list of pointers to individual task objects.
      * Contains instructions for completion of the course.
      */
-    Task* tasks[] = {
+    /*Task* tasks[] = {
         // Starting
         new MoveServo(180),
         new WaitForTouch("Touch to wait for light ..."),
@@ -74,7 +75,13 @@ int main(void)
         new GoToX(18, -25),
         // Drive up ramp.
         new Orient(90),
-        new DriveDistance(30, -45),
+        new DriveDistance(25, -45),
+        // Pull lever.
+        new GoToY(46, 25),
+        new GoToY(44, 25),
+        new Orient(180),
+        new DriveTime(4, -25),
+        new DriveDistance(15, 20),
         // Push Button
         new GoToX(26, 25),
         new Orient(90),
@@ -82,7 +89,7 @@ int main(void)
         new DriveDistance(18, 25),
         // Navigate to Core
         new GoToX(27, 25),
-        new GoToY(48.5, 25),
+        new GoToY(47.5, 25),
         new Orient(318),
         new MoveServo(75),
         new DriveDistance(13,20),
@@ -91,11 +98,6 @@ int main(void)
         // Extract core
         new DriveDistance(-20, 20),
         new MoveServo(180),
-        // Pull lever
-        new GoToY(44, 25),
-        new Orient(180),
-        new DriveTime(4, -25),
-        new DriveDistance(15, 20),
         // Drve downramp
         new GoToY(40, 25),
         new GoToX(17, 25),
@@ -113,6 +115,57 @@ int main(void)
         new Orient(90),
         new DriveTime(10, -35),
         new End()};
+    */
+
+    Task* tasks[] = {
+            // Starting
+            new MoveServo(180),
+            new WaitForTouch("Touch to wait for light ..."),
+            new WaitForLight(),
+            // Read Light
+            new GoToY(15.8, 25),
+            new GoToX(7, -25),
+            new ReadLight(),
+            // Satellite Dish
+            new GoToX(25, 25),
+            new Orient(157),
+            new DriveTime(2, 30),
+            new GoToX(18.5, -25),
+            // Drive up ramp.
+            new Orient(90),
+            new DriveDistance(25, -45),
+            // Pull lever.
+            new GoToY(45.5, -25),
+            new Orient(180),
+            new DriveTime(3, -15),
+            new MoveServo(70),
+            // Complete the Top Level
+            new DriveDistance(3,20),
+            new Orient(285),
+            new DriveDistance(11.5,20),
+            new TopLevel(),
+            new DriveDistance(-20,20),
+            new MoveServo(180),
+            new Orient(90),
+            new DriveTime(7, -25),
+            new GoToY(45, 25),
+            // Drve downramp
+            new GoToX(17, 25),
+            new GoToY(18, 25),
+            // Deposit Core
+            new DepositCore(),
+            new Orient(90),
+            new DriveTime(3, 15),
+            new MoveServo(70),
+            new DriveTime(1, 0),
+            new DriveDistance(-7, 40),
+            new MoveServo(180),
+            // Push final button
+            new GoToY(15, 30),
+            new GoToX(4, 25),
+            new Orient(90),
+            new DriveTime(10, -35),
+            new End()};
 
     /*
      * Iterates through and executes each task within the list.

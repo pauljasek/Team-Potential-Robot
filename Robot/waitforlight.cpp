@@ -24,7 +24,7 @@ bool WaitForLight::Run(Robot& robot)
      * Waits .2 seconds and returns completion if enough time has elapsed or change in CdS reading is large enough.
      */
     Sleep(.2);
-    bool start = Checks > 50 || PreviousValue - robot.GetCdSCellValue() > .3;
+    bool start = Checks > 75 || PreviousValue - robot.GetCdSCellValue() > .3;
     PreviousValue = robot.GetCdSCellValue();
 
     Checks++;

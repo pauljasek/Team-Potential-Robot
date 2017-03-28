@@ -14,8 +14,9 @@ public:
     void Finish(Robot& robot);
     bool isEnd();
 private:
-    float Y, Power, StartX;
+    float Y, Power, StartX, previous_power, previous_distance;
     bool positive;
+    bool waited;
 };
 
 #endif // GOTOY_H
