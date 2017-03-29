@@ -21,6 +21,18 @@ GoToX::GoToX(float x, float power)
     waited = false;
     previous_power = MIN_POWER;
     previous_distance = 0;
+    Tolerance = .4;
+}
+
+GoToX::GoToX(float x, float power, float tolerance)
+{
+    X = x;
+    Power = power;
+    positive = false;
+    waited = false;
+    previous_power = MIN_POWER;
+    previous_distance = 0;
+    Tolerance = tolerance;
 }
 
 void GoToX::Init(Robot& robot) {
@@ -60,12 +72,12 @@ bool GoToX::Run(Robot& robot)
     if (abs(distance) > 7)
     {
         waited = false;
-        robot.DriveStraight(distance*3/5.0, Power);
+        robot.DriveStraight(distance*2/5.0, Power);
         return false;
     }
-    else if (abs(distance) > .2)
+    else if (abs(distance) > Tolerance)
     {
-        robot.DriveStraight(distance*3/5.0, 13 * Power/abs(Power));
+        robot.DriveStraight(distance*2/5.0, 13 * Power/abs(Power));
         Sleep(.1);
         return false;
     }

@@ -1,6 +1,6 @@
 #include "taskexecutor.h"
 
-#define DELAY_BETWEEN_TASKS 0.2
+#define DELAY_BETWEEN_TASKS 0 //0.2
 
 TaskExecutor::TaskExecutor() {}
 

@@ -10,7 +10,7 @@
  * Left and right wheel power multipliers.
  */
 #define RM -1
-#define LM 1.1
+#define LM 1
 
 /*
  * Encoder count adjustmnet factors.
@@ -21,7 +21,7 @@
 /*
  * Motor power multiplier to correct when in the case of a count discrepency.
  */
-#define CORRECTION_MULTIPLIER .75
+#define CORRECTION_MULTIPLIER .70
 
 /*
  * Servo calibration constants.

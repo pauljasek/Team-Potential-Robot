@@ -52,27 +52,27 @@ bool Orient::Run(Robot& robot)
 
     if (heading_difference < -1)
     {
-        if (heading_difference > -20)
+        if (heading_difference > -35)
         {
             robot.Turn(-.5,18);
             Sleep(.1);
         }
         else
         {
-            robot.Turn(-2, 20);
+            robot.Turn(-.5, 20);
             waited = false;
         }
     }
     else if (heading_difference > 1)
     {
-        if (heading_difference < 20)
+        if (heading_difference < 35)
         {
             robot.Turn(.5,18);
             Sleep(.1);
         }
         else
         {
-            robot.Turn(2,20);
+            robot.Turn(.5,20);
             waited = false;
         }
     }

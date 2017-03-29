@@ -15,6 +15,17 @@ GoToY::GoToY(float y, float power)
     positive = false;
     waited = false;
     previous_power = MIN_POWER;
+    Tolerance = .4;
+}
+
+GoToY::GoToY(float y, float power, float tolerance)
+{
+    Y = y;
+    Power = power;
+    positive = false;
+    waited = false;
+    previous_power = MIN_POWER;
+    Tolerance = tolerance;
 }
 
 void GoToY::Init(Robot& robot) {
@@ -52,12 +63,12 @@ bool GoToY::Run(Robot& robot)
     if (abs(distance) > 7)
     {
         waited = false;
-        robot.DriveStraight(distance*3/5.0, Power);
+        robot.DriveStraight(distance*2/5.0, Power);
         return false;
     }
-    if (abs(distance) > .2)
+    if (abs(distance) > Tolerance)
     {
-        robot.DriveStraight(distance*3/5.0, 13 * Power/abs(Power));
+        robot.DriveStraight(distance*2/5.0, 13 * Power/abs(Power));
         Sleep(.1);
         return false;
     }

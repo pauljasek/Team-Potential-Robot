@@ -6,7 +6,7 @@ DriveDistance::DriveDistance(float distance)
     Percent = 20;
 }
 
-DriveDistance::DriveDistance(float distance ,float percent)
+DriveDistance::DriveDistance(float distance, float percent)
 {
     Distance = distance;
     Percent = percent;

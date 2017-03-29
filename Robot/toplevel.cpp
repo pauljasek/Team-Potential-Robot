@@ -54,6 +54,7 @@ void TopLevel::Init(Robot& robot) {
     robot.LeftMotor.SetPercent(-40);
     robot.RightMotor.SetPercent(20);
     while(robot.ArmBumper.Value()){}
+    Sleep(.2);
     robot.LeftMotor.Stop();
     robot.RightMotor.Stop();
 
