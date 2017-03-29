@@ -52,6 +52,12 @@ Robot::Robot()
      * Set the default value of the color of the bin indicator light.
      */
     RedLight = true;
+
+    RegionLetter = RPS.CurrentRegionLetter();
+
+    SD.OpenLog();
+
+    SD.Printf("Time, Arm Bumper Value, CdS Cell Value, X, Y, Heading, Region\n");
 }
 
 /*
@@ -341,4 +347,13 @@ void Robot::Update()
     X -= 6.5 * dx;
     Y -= 6.5 * dy;
     CdSCellVallue = CdSCell.Value();
+}
+
+void Robot::LogReport()
+{
+    char logRow[] = "%f, %d, %f, %f, %f, %f, %c\n";
+
+    // Write row out to the log
+    SD.Printf(logRow,
+              TimeNow(), ArmBumper.Value(), CdSCellVallue, X, Y, Heading, RegionLetter);
 }

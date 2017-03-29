@@ -3,6 +3,7 @@
  */
 #include <robot.h>
 #include <taskexecutor.h>
+#include <FEHSD.h>
 
 /*
  * Includes for task classes.
@@ -37,7 +38,6 @@
 /*
  * Initialize a robot object and an object for executing robot tasks.
  */
-Robot robot;
 TaskExecutor executor;
 
 /*
@@ -45,6 +45,11 @@ TaskExecutor executor;
  */
 int main(void)
 {
+    /*for (int j = 0; j < 4; j++) {
+        robot.Turn(45, 20);
+        Sleep(3.0);
+    }*/
+
     /*
      * Allows the user to select the course that the robot is operating within.
      */
@@ -54,6 +59,8 @@ int main(void)
      * Clears the screen.
      */
     LCD.Clear();
+
+    Robot robot;
 
     /*
      * Initialize a list of pointers to individual task objects.
@@ -123,12 +130,12 @@ int main(void)
             new WaitForTouch("Touch to wait for light ..."),
             new WaitForLight(),
             // Read Light
-            new DriveDistance(7.5, 30),
-            //new GoToY(15.8, 30),
+            //new DriveDistance(7.5, 30),
+            new GoToY(15.8, 30),
             new GoToX(16, 25),
             new ReadLight(),
             // Satellite Dish
-            new GoToX(25, 35, 2),
+            new GoToX(25, 30, 2),
             new Orient(157),
             new DriveTime(2, 35),
             new GoToX(19, -35, 1),
@@ -143,7 +150,7 @@ int main(void)
             // Complete the Top Level
             new DriveDistance(3,25),
             new Orient(284),
-            new DriveDistance(12.5, 30),
+            new DriveDistance(12.6, 30),
             new TopLevel(),
             new DriveDistance(-19, 30),
             new MoveServo(180),
@@ -185,7 +192,11 @@ int main(void)
          * Executes the task until completed.
          */
         executor.Execute(robot, task);
+
+        robot.LogReport();
     }
+
+    SD.CloseLog();
 
     return 0;
 }

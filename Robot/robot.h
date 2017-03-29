@@ -10,6 +10,7 @@
 #include <FEHRPS.h>
 #include <worldstate.h>
 #include <math.h>
+#include <FEHSD.h>
 
 class Robot
 {
@@ -27,6 +28,7 @@ public:
     void SetRedLight(bool);
     bool GetRedLight();
     void Update();
+    void LogReport();
     FEHMotor RightMotor;
     FEHMotor LeftMotor;
     FEHServo Servo;
@@ -48,6 +50,7 @@ private:
     float Heading;
     float CdSCellVallue;
     bool RedLight;
+    char RegionLetter;
 };
 
 #endif // ROBOT_H

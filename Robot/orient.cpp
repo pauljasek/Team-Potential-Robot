@@ -17,7 +17,7 @@ Orient::Orient(float orientation)
 
 void Orient::Init(Robot& robot) {
 
-    /*float desired_heading = Orientation;
+    float desired_heading = Orientation;
     if (desired_heading <= -180)
     {
         desired_heading += 360;
@@ -30,7 +30,18 @@ void Orient::Init(Robot& robot) {
     if (previous_difference <= -180)
     {
         previous_difference += 360;
-    }*/
+    }
+
+    if (previous_difference < 0)
+    {
+        previous_difference += 3;
+    }
+    if (previous_difference > 0)
+    {
+        previous_difference -= 3;
+    }
+
+    robot.Turn(previous_difference, 20);
 }
 
 bool Orient::Run(Robot& robot)
@@ -54,7 +65,7 @@ bool Orient::Run(Robot& robot)
     {
         if (heading_difference > -35)
         {
-            robot.Turn(-.5,18);
+            robot.Turn(-.5, 20);
             Sleep(.1);
         }
         else

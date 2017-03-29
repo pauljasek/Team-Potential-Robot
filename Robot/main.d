@@ -27,9 +27,14 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/math_config.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/arm/math.ARM.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/cerrno \
- C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h ../taskexecutor.h \
- ../task.h ../drive.h ../task.h ../waitfortouch.h \
- C:\fehqt\Proteus/EWL/EWL_C/include/string.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h Libraries/FEHSD.h \
+ Drivers/SDHC.h Drivers/diskio.h Drivers/ff.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/stdarg.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/cstdarg \
+ C:\fehqt\Proteus/EWL/EWL_C/include/va_list.h \
+ C:\fehqt\Proteus/EWL/EWL_C/include/arm/stdarg.ARM.h Drivers/ffconf.h \
+ Drivers/ffconf.h Drivers/diskio.h ../taskexecutor.h ../task.h ../drive.h \
+ ../task.h ../waitfortouch.h C:\fehqt\Proteus/EWL/EWL_C/include/string.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/cstring \
  C:\fehqt\Proteus/EWL/EWL_C/include/null.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/size_t.h \
@@ -116,6 +121,28 @@ C:\fehqt\Proteus/EWL/EWL_C/include/arm/math.ARM.h:
 C:\fehqt\Proteus/EWL/EWL_C/include/cerrno:
 
 C:\fehqt\Proteus/EWL/EWL_C/include/math_integral.h:
+
+Libraries/FEHSD.h:
+
+Drivers/SDHC.h:
+
+Drivers/diskio.h:
+
+Drivers/ff.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/stdarg.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/cstdarg:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/va_list.h:
+
+C:\fehqt\Proteus/EWL/EWL_C/include/arm/stdarg.ARM.h:
+
+Drivers/ffconf.h:
+
+Drivers/ffconf.h:
+
+Drivers/diskio.h:
 
 ../taskexecutor.h:
 
