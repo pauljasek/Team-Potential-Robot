@@ -17,6 +17,10 @@ Orient::Orient(float orientation)
 
 void Orient::Init(Robot& robot) {
 
+    Sleep(.15);
+
+    robot.Update();
+
     float desired_heading = Orientation;
     if (desired_heading <= -180)
     {
@@ -34,18 +38,20 @@ void Orient::Init(Robot& robot) {
 
     if (previous_difference < 0)
     {
-        previous_difference += 3;
+        previous_difference += 1;
     }
     if (previous_difference > 0)
     {
-        previous_difference -= 3;
+        previous_difference -= 1;
     }
 
     robot.Turn(previous_difference, 20);
+    Sleep(.15);
 }
 
 bool Orient::Run(Robot& robot)
 {
+
     float desired_heading = Orientation;
     if (desired_heading <= -180)
     {
@@ -63,10 +69,10 @@ bool Orient::Run(Robot& robot)
 
     if (heading_difference < -1)
     {
-        if (heading_difference > -35)
+        if (heading_difference > -15)
         {
             robot.Turn(-.5, 20);
-            Sleep(.1);
+            Sleep(.15);
         }
         else
         {
@@ -76,14 +82,14 @@ bool Orient::Run(Robot& robot)
     }
     else if (heading_difference > 1)
     {
-        if (heading_difference < 35)
+        if (heading_difference < 15)
         {
             robot.Turn(.5,18);
-            Sleep(.1);
+            Sleep(.15);
         }
         else
         {
-            robot.Turn(.5,20);
+            robot.Turn(.5, 20);
             waited = false;
         }
     }
@@ -96,7 +102,7 @@ bool Orient::Run(Robot& robot)
         else
         {
             waited = true;
-            Sleep(.2);
+            Sleep(.15);
             return false;
         }
     }

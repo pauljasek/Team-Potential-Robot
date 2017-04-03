@@ -22,6 +22,7 @@
 #include <gotoy.h>
 #include <drivetime.h>
 #include <toplevel.h>
+#include <finalbutton.h>
 
 /*
  * Main Program for 2017 FEH Robot Competition
@@ -61,6 +62,10 @@ int main(void)
     LCD.Clear();
 
     Robot robot;
+
+    //robot.Turn(90,20);
+
+    //robot.PIDDrive(20,30);
 
     /*
      * Initialize a list of pointers to individual task objects.
@@ -131,26 +136,28 @@ int main(void)
             new WaitForLight(),
             // Read Light
             //new DriveDistance(7.5, 30),
-            new GoToY(15.8, 30),
-            new GoToX(16, 25),
+            new GoToY(16, 30, .2, false),
+            new Orient(180),
+            //new GoToX(16, 25),
             new ReadLight(),
             // Satellite Dish
-            new GoToX(25, 30, 2),
+            new GoToX(25, 25, 2, false),
             new Orient(157),
-            new DriveTime(2, 35),
-            new GoToX(19, -35, 1),
+            new DriveTime(2.5, 30),
+            new GoToX(19, -35, 1, false),
             // Drive up ramp.
             new Orient(90),
-            new DriveDistance(25, -45),
+            new DriveDistance(25, -43),
             // Pull lever.
-            new GoToY(45.5, -20),
+            new DriveTime(.5, 0),
+            new GoToY(45.25, -16, .2, false),
             new Orient(180),
-            new DriveTime(3, -15),
+            new DriveTime(2.5, -16),
             new MoveServo(70),
             // Complete the Top Level
             new DriveDistance(3,25),
             new Orient(284),
-            new DriveDistance(12.6, 30),
+            new DriveDistance(13.7, 30),
             new TopLevel(),
             new DriveDistance(-19, 30),
             new MoveServo(180),
@@ -158,23 +165,28 @@ int main(void)
             new MoveServo(180),
             new Orient(90),
             new DriveTime(7, -25),
-            new GoToY(45, 40, 2),
+            new DriveDistance(2, 30),
+            //new GoToY(45, 40, 2),
             // Drve downramp
-            new GoToX(17, 30, 1),
-            new GoToY(18, 25, 1),
+            new Orient(70),
+            new GoToX(17, 30, 1, false),
+            //new GoToY(18, 25, 1),
+            new Orient(90),
+            new DriveDistance(25, 25),
             // Deposit Core
             new DepositCore(),
             new Orient(90),
-            new DriveTime(3, 15),
+            new DriveTime(2, 20),
             new MoveServo(70),
             new DriveTime(.5, 0),
-            new DriveDistance(-7, 45),
+            new DriveDistance(-5, 50),
             new MoveServo(180),
             // Push final button
             //new GoToY(15, 30, 1),
-            new GoToX(4, 25, 1),
+            /*new GoToX(4, 25, 1),
             new Orient(90),
-            new DriveTime(10, -45),
+            new DriveTime(10, -45),*/
+            new FinalButton(),
             new End()};
 
     /*

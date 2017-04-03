@@ -19,6 +19,8 @@ public:
     void SetRightPercent(float);
     void SetLeftPercent(float);
     void DriveStraight(float, float);
+    float DriveStraightReadLight(float, float);
+    void PIDDrive(float, float);
     void DriveTime(float, float);
     void Turn(float, float);
     float GetX();

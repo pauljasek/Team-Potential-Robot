@@ -11,8 +11,9 @@ void ReadLight::Init(Robot& robot)
 
 bool ReadLight::Run(Robot& robot)
 {
-    LCD.WriteLine(robot.GetCdSCellValue());
-    if(robot.GetCdSCellValue() < 1)
+    float cds_value = robot.DriveStraightReadLight(10, 25);
+    LCD.WriteLine(cds_value);
+    if(cds_value < 1)
     {
         robot.SetRedLight(true);
         LCD.WriteLine("Red");

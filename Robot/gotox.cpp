@@ -22,6 +22,7 @@ GoToX::GoToX(float x, float power)
     previous_power = MIN_POWER;
     previous_distance = 0;
     Tolerance = .4;
+    ChangeOrientation = true;
 }
 
 GoToX::GoToX(float x, float power, float tolerance)
@@ -33,6 +34,19 @@ GoToX::GoToX(float x, float power, float tolerance)
     previous_power = MIN_POWER;
     previous_distance = 0;
     Tolerance = tolerance;
+    ChangeOrientation = true;
+}
+
+GoToX::GoToX(float x, float power, float tolerance, bool orient)
+{
+    X = x;
+    Power = power;
+    positive = false;
+    waited = false;
+    previous_power = MIN_POWER;
+    previous_distance = 0;
+    Tolerance = tolerance;
+    ChangeOrientation = orient;
 }
 
 void GoToX::Init(Robot& robot) {
@@ -40,14 +54,19 @@ void GoToX::Init(Robot& robot) {
 
     float distance = X - robot.GetX();
 
+
     if (distance * Power < 0)
     {
+        if (ChangeOrientation) {
+            executor.Execute(robot, new Orient(0));
+        }
         positive = true;
-        executor.Execute(robot, new Orient(0));
     }
     else
     {
-        executor.Execute(robot, new Orient(180));
+        if (ChangeOrientation) {
+            executor.Execute(robot, new Orient(180));
+        }
     }
 
     if (Power < 0)
@@ -73,6 +92,7 @@ bool GoToX::Run(Robot& robot)
     {
         waited = false;
         robot.DriveStraight(distance*2/5.0, Power);
+        //robot.PIDDrive(distance, Power);
         return false;
     }
     else if (abs(distance) > Tolerance)

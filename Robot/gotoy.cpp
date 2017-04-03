@@ -16,6 +16,7 @@ GoToY::GoToY(float y, float power)
     waited = false;
     previous_power = MIN_POWER;
     Tolerance = .4;
+    ChangeOrientation = true;
 }
 
 GoToY::GoToY(float y, float power, float tolerance)
@@ -26,20 +27,38 @@ GoToY::GoToY(float y, float power, float tolerance)
     waited = false;
     previous_power = MIN_POWER;
     Tolerance = tolerance;
+    ChangeOrientation = true;
+}
+
+GoToY::GoToY(float y, float power, float tolerance, bool orient)
+{
+    Y = y;
+    Power = power;
+    positive = false;
+    waited = false;
+    previous_power = MIN_POWER;
+    Tolerance = tolerance;
+    ChangeOrientation = orient;
 }
 
 void GoToY::Init(Robot& robot) {
     TaskExecutor executor;
 
     float distance = Y - robot.GetY();
+
+
     if (distance * Power < 0)
     {
-        executor.Execute(robot, new Orient(90));
+        if (ChangeOrientation) {
+            executor.Execute(robot, new Orient(90));
+        }
         positive = true;
     }
     else
     {
-        executor.Execute(robot, new Orient(270));
+        if (ChangeOrientation) {
+            executor.Execute(robot, new Orient(270));
+        }
     }
 
     if (Power < 0)
@@ -64,6 +83,7 @@ bool GoToY::Run(Robot& robot)
     {
         waited = false;
         robot.DriveStraight(distance*2/5.0, Power);
+        //robot.PIDDrive(distance, Power);
         return false;
     }
     if (abs(distance) > Tolerance)

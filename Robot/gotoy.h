@@ -10,6 +10,7 @@ class GoToY : public Task
 public:
     GoToY(float, float);
     GoToY(float, float, float);
+    GoToY(float, float, float, bool);
     void Init(Robot& robot);
     bool Run(Robot& robot);
     void Finish(Robot& robot);
@@ -17,7 +18,7 @@ public:
 private:
     float Y, Power, StartX, previous_power, previous_distance, Tolerance;
     bool positive;
-    bool waited;
+    bool waited, ChangeOrientation;
 };
 
 #endif // GOTOY_H

@@ -10,6 +10,7 @@ class GoToX : public Task
 public:
     GoToX(float, float);
     GoToX(float, float, float);
+    GoToX(float, float, float, bool);
     void Init(Robot& robot);
     bool Run(Robot& robot);
     void Finish(Robot& robot);
@@ -17,7 +18,7 @@ public:
 private:
     float X, Power, StartY, previous_power, previous_distance, Tolerance;
     bool positive;
-    bool waited;
+    bool waited, ChangeOrientation;
 };
 
 #endif // GOTOX_H

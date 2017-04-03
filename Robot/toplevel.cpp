@@ -51,10 +51,12 @@ void TopLevel::Init(Robot& robot) {
 
     //while(Button_change.Value()){}
     Sleep(TIME);*/
-    robot.LeftMotor.SetPercent(-40);
+    robot.LeftMotor.SetPercent(-45);
     robot.RightMotor.SetPercent(20);
-    while(robot.ArmBumper.Value()){}
-    Sleep(.2);
+
+    float initialTime = TimeNow();
+    while(robot.ArmBumper.Value() && TimeNow() - initialTime < 2.0){}
+    Sleep(.4);
     robot.LeftMotor.Stop();
     robot.RightMotor.Stop();
 

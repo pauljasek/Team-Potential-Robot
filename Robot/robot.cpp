@@ -10,7 +10,7 @@
  * Left and right wheel power multipliers.
  */
 #define RM -1
-#define LM 1
+#define LM 1.1 //1.25
 
 /*
  * Encoder count adjustmnet factors.
@@ -21,7 +21,7 @@
 /*
  * Motor power multiplier to correct when in the case of a count discrepency.
  */
-#define CORRECTION_MULTIPLIER .70
+#define CORRECTION_MULTIPLIER 0.55
 
 /*
  * Servo calibration constants.
@@ -148,6 +148,87 @@ void Robot::DriveStraight(float inches, float percent)
 }
 
 /*
+ * Basic functionality for driving straight a certain number of inches at a given power level.
+ */
+float Robot::DriveStraightReadLight(float inches, float percent)
+{
+    float minLightValue = CdSCell.Value();
+
+    /*
+     * Account for negative values.
+     */
+    percent *= -1;
+    if (inches < 0)
+    {
+        inches *= -1;
+        percent *= -1;
+    }
+
+    /*
+     * Reset encoder counts.
+     */
+    RightEncoder.ResetCounts();
+    LeftEncoder.ResetCounts();
+
+    /*
+     * Calculate the number of counts to drive a given distance.
+     */
+    int counts = COUNTS_PER_INCH * inches;
+
+    /*
+     * Create variables to store number of counts.
+     */
+    int r_counts = RightEncoder.Counts() * RCM;
+    int l_counts = LeftEncoder.Counts() * LCM;
+
+    /*
+     * While average of counts is less than calculated counts.
+     */
+    while (r_counts + l_counts < counts * 2)
+    {
+        float cds_value = CdSCell.Value();
+        if (cds_value < minLightValue)
+        {
+            minLightValue = cds_value;
+        }
+
+        /*
+         * Update count variables.
+         */
+        r_counts = RightEncoder.Counts() * RCM;
+        l_counts = LeftEncoder.Counts() * LCM;
+
+        /*
+         * Calculate corrected percentages.
+         */
+        float r_percent = percent;
+        float l_percent = percent;
+
+        if (r_counts < l_counts)
+        {
+            l_percent *= CORRECTION_MULTIPLIER;
+        }
+        else if (l_counts < r_counts)
+        {
+            r_percent *= CORRECTION_MULTIPLIER;
+        }
+
+        /*
+         * Apply motor percentages.
+         */
+        RightMotor.SetPercent(RM * r_percent);
+        LeftMotor.SetPercent(LM * l_percent);
+    }
+    /*
+     * Stop the motors.
+     */
+    RightMotor.Stop();
+    LeftMotor.Stop();
+
+    return minLightValue;
+}
+
+/*
  * Basic functionality for driving straight a certain amount of time at a given power level.
  */
 void Robot::DriveTime(float time, float percent)
@@ -212,6 +293,7 @@ void Robot::DriveTime(float time, float percent)
     RightMotor.Stop();
     LeftMotor.Stop();
 }
+
 
 
 
@@ -284,6 +366,151 @@ void Robot::Turn(float degrees, float percent)
     RightMotor.Stop();
     LeftMotor.Stop();
 }
+
+void Robot::PIDDrive(float distance, float velocity)
+{
+    int negative = 1;
+    if (velocity < 0)
+    {
+        velocity *= -1;
+        negative *= -1;
+    }
+
+    if (distance < 0)
+    {
+        distance *= -1;
+        negative *= -1;
+    }
+
+    float P = 1.5; //0.75;
+    float I = 0.001; //0.05;
+    float D = 0.15; //0.25;
+
+    float r_errorSum = 0;
+    float l_errorSum = 0;
+
+    float last_time = TimeNow();
+    RightEncoder.ResetCounts();
+    LeftEncoder.ResetCounts();
+
+    float pr_counts = 0;
+    float pl_counts = 0;
+    float r_counts = 0;
+    float l_counts = 0;
+
+    float r_power = 0;
+    float l_power = 0;
+
+    float r_previous_error = 0;
+    float l_previous_error = 0;
+
+    float total_counts = distance * COUNTS_PER_INCH * 2;
+
+    float target_velocity = 2;
+    if (target_velocity > velocity)
+    {
+        target_velocity = velocity;
+    }
+
+    float current_distance = 0;
+
+    float ACCELERATION = 20;
+
+    float DECEL_POINT = .75;
+    float DECELERATION = ACCELERATION;
+
+    float MIN_VELOCITY = 3;
+
+    //Sleep(.05);
+
+    //while (r_counts + l_counts < total_counts)
+    while (current_distance < distance)
+    {
+        Sleep(.05);
+        r_counts = RightEncoder.Counts() * RCM;
+        l_counts = LeftEncoder.Counts() * LCM;
+
+        float delta_r_counts = r_counts - pr_counts;
+        float delta_l_counts = l_counts - pl_counts;
+
+        float current_time = TimeNow();
+        float delta_time = current_time - last_time;
+        last_time = current_time;
+
+        if (delta_time < .001)
+        {
+            delta_time = .001;
+        }
+
+        float r_velocity = (delta_r_counts/delta_time)/COUNTS_PER_INCH;
+        float l_velocity = (delta_l_counts/delta_time)/COUNTS_PER_INCH;
+
+        if (current_distance < distance * DECEL_POINT)
+        {
+            target_velocity = sqrt(2*current_distance*ACCELERATION);
+        }
+        else
+        {
+            target_velocity = sqrt(2*(distance-current_distance)*DECELERATION);
+        }
+        if (target_velocity > velocity)
+        {
+            target_velocity = velocity;
+        }
+        if (target_velocity < MIN_VELOCITY)
+        {
+            target_velocity = MIN_VELOCITY;
+        }
+
+        LCD.WriteLine(target_velocity);
+
+        /*if (r_velocity + l_velocity > target_velocity * 2 - .5)
+        {
+            target_velocity += 1;
+            if (target_velocity > velocity)
+            {
+                target_velocity = velocity;
+            }
+            LCD.WriteLine(target_velocity);
+        }*/
+
+        float r_error = target_velocity - r_velocity;
+        float l_error = target_velocity - l_velocity;
+
+        r_errorSum += r_error;
+        l_errorSum += l_error;
+
+        //LCD.Write(r_error);
+        //LCD.Write(" ");
+        //LCD.WriteLine(l_error);
+
+        float r_PTerm = r_error * P;
+        float r_ITerm = r_errorSum * I;
+        float r_DTerm = (r_error - r_previous_error) * D;
+
+        float l_PTerm = l_error * P;
+        float l_ITerm = l_errorSum * I;
+        float l_DTerm = (l_error - l_previous_error) * D;
+
+        r_power += r_PTerm + r_ITerm + r_DTerm;
+        l_power += l_PTerm + l_ITerm + l_DTerm;
+
+        pr_counts = r_counts;
+        pl_counts = l_counts;
+
+        r_previous_error = r_error;
+        l_previous_error = l_error;
+
+        SetRightPercent(-r_power * negative);
+        SetLeftPercent(-l_power * negative);
+
+        current_distance = ((r_counts + l_counts)/2.0)/COUNTS_PER_INCH;
+    }
+
+    RightMotor.Stop();
+    LeftMotor.Stop();
+}
+
 
 /*
  * Return current understanding of bin light color.
