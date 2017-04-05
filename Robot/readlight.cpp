@@ -11,17 +11,19 @@ void ReadLight::Init(Robot& robot)
 
 bool ReadLight::Run(Robot& robot)
 {
-    float cds_value = robot.DriveStraightReadLight(10, 25);
+    float cds_value = robot.DriveStraightReadLight(8, 45);
     LCD.WriteLine(cds_value);
     if(cds_value < 1)
     {
         robot.SetRedLight(true);
         LCD.WriteLine("Red");
+        LCD.Clear(RED);
     }
     else
     {
         robot.SetRedLight(false);
         LCD.WriteLine("Blue");
+        LCD.Clear(BLUE);
     }
     return true;
 }

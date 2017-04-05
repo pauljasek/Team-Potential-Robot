@@ -33,9 +33,8 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/cstdarg \
  C:\fehqt\Proteus/EWL/EWL_C/include/va_list.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/arm/stdarg.ARM.h Drivers/ffconf.h \
- Drivers/ffconf.h Drivers/diskio.h ..\/depositcore.h ..\/drive.h \
- ..\/drivedistance.h ..\/drivetime.h ../taskexecutor.h ../task.h \
- ../gotox.h ../task.h ../gotoy.h ../orient.h
+ Drivers/ffconf.h Drivers/diskio.h ..\/drivedistance.h ..\/drivetime.h \
+ ../taskexecutor.h ../task.h ../gotox.h ../task.h ../gotoy.h ../orient.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -140,10 +139,6 @@ Drivers/ffconf.h:
 Drivers/ffconf.h:
 
 Drivers/diskio.h:
-
-..\/depositcore.h:
-
-..\/drive.h:
 
 ..\/drivedistance.h:
 

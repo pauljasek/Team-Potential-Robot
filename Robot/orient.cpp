@@ -13,6 +13,14 @@ Orient::Orient(float orientation)
 {
     Orientation = orientation;
     waited = false;
+    Check = true;
+}
+
+Orient::Orient(float orientation, bool check)
+{
+    Orientation = orientation;
+    waited = false;
+    Check = check;
 }
 
 void Orient::Init(Robot& robot) {
@@ -46,11 +54,19 @@ void Orient::Init(Robot& robot) {
     }
 
     robot.Turn(previous_difference, 20);
-    Sleep(.15);
+
+    if (Check)
+    {
+        Sleep(.15);
+    }
 }
 
 bool Orient::Run(Robot& robot)
 {
+    if (!Check)
+    {
+        return true;
+    }
 
     float desired_heading = Orientation;
     if (desired_heading <= -180)
@@ -175,7 +191,7 @@ void Orient::Finish(Robot& robot)
     robot.RightMotor.Stop();
     robot.LeftMotor.Stop();
 
-    LCD.WriteLine(robot.GetHeading());
+    //LCD.WriteLine(robot.GetHeading());
 }
 
 bool Orient::isEnd()

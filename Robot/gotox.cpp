@@ -82,20 +82,23 @@ void GoToX::Init(Robot& robot) {
     previous_distance = X - robot.GetX();
 
     StartY = robot.GetY();
+
+    robot.DriveStraight(previous_distance, Power);
+    Sleep(.3);
 }
 
 bool GoToX::Run(Robot& robot)
 {
     float distance = X - robot.GetX();
 
-    if (abs(distance) > 7)
+    /*if (abs(distance) > 7)
     {
         waited = false;
         robot.DriveStraight(distance*2/5.0, Power);
         //robot.PIDDrive(distance, Power);
         return false;
-    }
-    else if (abs(distance) > Tolerance)
+    }*/
+    if (abs(distance) > Tolerance)
     {
         robot.DriveStraight(distance*2/5.0, 13 * Power/abs(Power));
         Sleep(.1);

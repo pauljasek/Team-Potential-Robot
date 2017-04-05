@@ -23,6 +23,8 @@ readlight.cpp
 readlight.h
 robot.cpp
 robot.h
+satellite.cpp
+satellite.h
 sensor.h
 servo.cpp
 servo.h

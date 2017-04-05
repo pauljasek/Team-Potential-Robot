@@ -3,14 +3,17 @@
 /*
  * Conversion factors for driving specific distances and turning specific degrees.
  */
-#define COUNTS_PER_INCH 33.7408479355
+#define COUNTS_PER_INCH 34.5 //33.7408479355
 #define COUNTS_PER_DEGREE 2.09055555556
+#define REGRESSION1 -1.6912
+#define REGRESSION2 19.354
+
 
 /*
  * Left and right wheel power multipliers.
  */
 #define RM -1
-#define LM 1.1 //1.25
+#define LM 1.060 //1.060 //1.25
 
 /*
  * Encoder count adjustmnet factors.
@@ -21,7 +24,10 @@
 /*
  * Motor power multiplier to correct when in the case of a count discrepency.
  */
-#define CORRECTION_MULTIPLIER 0.55
+#define CORRECTION_MULTIPLIER 0.75
+
+#define CURVE_MULTIPLIER 0.6
+
 
 /*
  * Servo calibration constants.
@@ -35,8 +41,8 @@ Robot::Robot()
     : RightMotor(FEHMotor::Motor1, 12.0),
       LeftMotor(FEHMotor::Motor0, 12.0),
       Servo(FEHServo::Servo5),
-      RightEncoder(FEHIO::P0_0),
-      LeftEncoder(FEHIO::P0_2),
+      RightEncoder(FEHIO::P0_6),
+      LeftEncoder(FEHIO::P0_7),
       RightOptosensor(FEHIO::P1_1),
       MiddleOptosensor(FEHIO::P1_2),
       LeftOptosensor(FEHIO::P1_4),
@@ -91,6 +97,11 @@ void Robot::DriveStraight(float inches, float percent)
         percent *= -1;
     }
 
+    /*if (inches > 3)
+    {
+        inches -= 0.04 * abs(percent) - 0.4065;
+    }*/
+
     /*
      * Reset encoder counts.
      */
@@ -100,7 +111,13 @@ void Robot::DriveStraight(float inches, float percent)
     /*
      * Calculate the number of counts to drive a given distance.
      */
-    int counts = COUNTS_PER_INCH * inches;
+    float offset = REGRESSION1*abs(percent) + REGRESSION2;
+    if (offset > 0)
+    {
+        offset = 0;
+    }
+
+    int counts = COUNTS_PER_INCH * inches + offset;
 
     /*
      * Create variables to store number of counts.
@@ -145,6 +162,155 @@ void Robot::DriveStraight(float inches, float percent)
      */
     RightMotor.Stop();
     LeftMotor.Stop();
+}
+
+void Robot::DriveArc(float inches, float percent, float l_ratio, float r_ratio)
+{
+    /*
+     * Account for negative values.
+     */
+    percent *= -1;
+    if (inches < 0)
+    {
+        inches *= -1;
+        percent *= -1;
+    }
+
+    /*
+     * Reset encoder counts.
+     */
+    RightEncoder.ResetCounts();
+    LeftEncoder.ResetCounts();
+
+    /*
+     * Calculate the number of counts to drive a given distance.
+     */
+    int counts = COUNTS_PER_INCH * inches;
+
+    /*
+     * Create variables to store number of counts.
+     */
+    int r_counts = RightEncoder.Counts() * RCM * r_ratio;
+    int l_counts = LeftEncoder.Counts() * LCM * l_ratio;
+
+    /*
+     * While average of counts is less than calculated counts.
+     */
+    while (r_counts + l_counts < counts * 2)
+    {
+        /*
+         * Update count variables.
+         */
+        r_counts = RightEncoder.Counts() * RCM * r_ratio;
+        l_counts = LeftEncoder.Counts() * LCM * l_ratio;
+
+        /*
+         * Calculate corrected percentages.
+         */
+        float r_percent = percent;
+        float l_percent = percent;
+
+        if (r_counts < l_counts)
+        {
+            l_percent *= CURVE_MULTIPLIER;
+        }
+        else if (l_counts < r_counts)
+        {
+            r_percent *= CURVE_MULTIPLIER;
+        }
+
+        /*
+         * Apply motor percentages.
+         */
+        RightMotor.SetPercent(RM * r_percent);
+        LeftMotor.SetPercent(LM * l_percent);
+    }
+    /*
+     * Stop the motors.
+     */
+    RightMotor.Stop();
+    LeftMotor.Stop();
+}
+
+
+float Robot::Accelerate(float percent)
+{
+    RightEncoder.ResetCounts();
+    LeftEncoder.ResetCounts();
+
+    /*float PowerR = 0.1;
+    SetRightPercent(-percent);
+
+    while(PowerR < 1.0)
+    {
+        Sleep(0.008);
+        PowerR += 0.05;
+        SetLeftPercent(-PowerR*percent);
+    }
+    SetLeftPercent(-percent);*/
+
+    float r_power = 0;
+    float l_power = 0;
+    int mult = -percent/abs(percent);
+
+    LCD.Clear(RED);
+
+    SetRightPercent(r_power * mult);
+    SetLeftPercent(l_power * mult);
+
+    while (r_power < abs(percent) && l_power < abs(percent))
+    {
+        Sleep(.001);
+        SetRightPercent(r_power * mult);
+        SetLeftPercent(l_power * mult);
+
+        if (RightEncoder.Counts() < LeftEncoder.Counts())
+        {
+            r_power += .2;
+            if (r_power > abs(percent))
+            {
+                r_power = abs(percent);
+            }
+        }
+        else
+        {
+            l_power += .2;
+            if (l_power > abs(percent))
+            {
+                l_power = abs(percent);
+            }
+        }
+    }
+
+    LCD.Clear(GREEN);
+
+    LCD.WriteLine(l_power);
+    LCD.WriteLine(r_power);
+
+
+    return (RightEncoder.Counts() + LeftEncoder.Counts())/2.0;
+}
+
+void Robot::DriveFast(float inches)
+{
+    /*
+     * Calculate the number of counts to drive a given distance.
+     */
+    inches -= 2;
+    int counts = COUNTS_PER_INCH * abs(inches);
+
+    float percent = 50;
+
+    if (inches >= 0)
+    {
+        counts -= Accelerate(percent);
+        DriveStraight(counts/COUNTS_PER_INCH, percent);
+    }
+    else
+    {
+        counts -= Accelerate(-percent);
+        DriveStraight(counts/COUNTS_PER_INCH, -percent);
+    }
 }
 
 /*
