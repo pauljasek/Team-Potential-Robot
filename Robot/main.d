@@ -33,8 +33,9 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/cstdarg \
  C:\fehqt\Proteus/EWL/EWL_C/include/va_list.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/arm/stdarg.ARM.h Drivers/ffconf.h \
- Drivers/ffconf.h Drivers/diskio.h ../taskexecutor.h ../task.h ../drive.h \
- ../task.h ../waitfortouch.h C:\fehqt\Proteus/EWL/EWL_C/include/string.h \
+ Drivers/ffconf.h Drivers/diskio.h ../taskexecutor.h ../task.h \
+ Libraries/FEHBattery.h Libraries/FEHIO.h ../drive.h ../task.h \
+ ../waitfortouch.h C:\fehqt\Proteus/EWL/EWL_C/include/string.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/cstring \
  C:\fehqt\Proteus/EWL/EWL_C/include/null.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/size_t.h \
@@ -147,6 +148,10 @@ Drivers/diskio.h:
 ../taskexecutor.h:
 
 ../task.h:
+
+Libraries/FEHBattery.h:
+
+Libraries/FEHIO.h:
 
 ../drive.h:
 

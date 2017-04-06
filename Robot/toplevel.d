@@ -34,7 +34,7 @@
  C:\fehqt\Proteus/EWL/EWL_C/include/va_list.h \
  C:\fehqt\Proteus/EWL/EWL_C/include/arm/stdarg.ARM.h Drivers/ffconf.h \
  Drivers/ffconf.h Drivers/diskio.h ../taskexecutor.h ../task.h \
- ../orient.h ../task.h
+ ../orient.h ../task.h ../drivedistance.h
 
 C:\fehqt\Proteus/EWL/EWL_C++/include/lib_ewl_c++.prefix:
 
@@ -147,3 +147,5 @@ Drivers/diskio.h:
 ../orient.h:
 
 ../task.h:
+
+../drivedistance.h:

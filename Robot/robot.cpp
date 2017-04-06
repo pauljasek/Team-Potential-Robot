@@ -8,12 +8,15 @@
 #define REGRESSION1 -1.6912
 #define REGRESSION2 19.354
 
+#define TURNREG1 2.1165
+#define TURNREG2 -23.336
+
 
 /*
  * Left and right wheel power multipliers.
  */
 #define RM -1
-#define LM 1.060 //1.060 //1.25
+#define LM 1.060 //.060 //1.060 //1.25
 
 /*
  * Encoder count adjustmnet factors.
@@ -24,7 +27,7 @@
 /*
  * Motor power multiplier to correct when in the case of a count discrepency.
  */
-#define CORRECTION_MULTIPLIER 0.75
+#define CORRECTION_MULTIPLIER 0.75 //75
 
 #define CURVE_MULTIPLIER 0.6
 
@@ -118,6 +121,11 @@ void Robot::DriveStraight(float inches, float percent)
     }
 
     int counts = COUNTS_PER_INCH * inches + offset;
+
+    if (counts < 5)
+    {
+        counts = 5;
+    }
 
     /*
      * Create variables to store number of counts.
@@ -486,7 +494,12 @@ void Robot::Turn(float degrees, float percent)
     /*
      * Calculate counts to turn given amount.
      */
-    int counts = COUNTS_PER_DEGREE * degrees;
+    //int counts = COUNTS_PER_DEGREE * degrees;
+    float counts = degrees * TURNREG1 + TURNREG2;
+    if (counts < 1)
+    {
+        counts = 1;
+    }
 
     /*
      * Create variables for encoder counts.
@@ -531,6 +544,34 @@ void Robot::Turn(float degrees, float percent)
      */
     RightMotor.Stop();
     LeftMotor.Stop();
+}
+
+void Robot::WaitForRPS()
+{
+    float px = RPS.X();
+    float py = RPS.Y();
+    float ph = RPS.Heading();
+
+    float end_time = TimeNow() + 1.5;
+    float diff_time = TimeNow() + .1;
+
+    while (TimeNow() < end_time && TimeNow() < diff_time)
+    {
+        float x = RPS.X();
+        float y = RPS.Y();
+        float h = RPS.Heading();
+
+        if (abs(x - px) > .1 || abs(y - py) > .1 || abs(h - ph) > .1 || x == -1)
+        {
+            diff_time = TimeNow() + .08;
+        }
+
+        px = x;
+        py = y;
+        ph = h;
+    }
+
+    //Sleep(1);
 }
 
 void Robot::PIDDrive(float distance, float velocity)

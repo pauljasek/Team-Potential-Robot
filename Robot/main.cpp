@@ -4,6 +4,7 @@
 #include <robot.h>
 #include <taskexecutor.h>
 #include <FEHSD.h>
+#include <FEHBattery.h>
 
 /*
  * Includes for task classes.
@@ -62,7 +63,33 @@ int main(void)
      */
     LCD.Clear();
 
+    LCD.Write("Voltage: ");
+    LCD.WriteLine(Battery.Voltage());
+
+    LCD.Write("X: ");
+    LCD.WriteLine(RPS.X());
+
+    LCD.Write("Y: ");
+    LCD.WriteLine(RPS.Y());
+
     Robot robot;
+
+    /*for (int degrees = 10; degrees <= 180; degrees += 10)
+    {
+        for (int power = -30; power <= 30; power += 60)
+        {
+            robot.WaitForRPS();
+            Sleep(.1);
+            robot.Update();
+            float start_heading = robot.GetHeading();
+            robot.Turn(degrees, power);
+            robot.WaitForRPS();
+            Sleep(.1);
+            robot.Update();
+            float end_heading = robot.GetHeading();
+            SD.Printf("%d, %d, %f, %f, %f\n", robot.RightEncoder.Counts(), robot.LeftEncoder.Counts(), start_heading, end_heading, power);
+        }
+    }*/
 
         /*for (int i = 0; i < 5; i++)
         {
@@ -93,7 +120,7 @@ int main(void)
 
     while (false)
     {
-    robot.LeftEncoder.ResetCounts();
+    /*robot.LeftEncoder.ResetCounts();
     robot.RightEncoder.ResetCounts();
     robot.SetLeftPercent(-45);
     robot.SetRightPercent(-45);
@@ -117,15 +144,17 @@ int main(void)
     robot.RightMotor.Stop();
     robot.LeftMotor.Stop();
 
-    Sleep(2.0);
+    Sleep(2.0);*/
 
-    robot.DriveStraight(20, 25);
+    robot.DriveStraight(20, 45);
 
-    Sleep(2.0);
+    //Sleep(2.0);
+    robot.WaitForRPS();
 
-    robot.DriveStraight(-20, 25);
+    robot.DriveStraight(-20, 45);
 
-    Sleep(2.0);
+    robot.WaitForRPS();
+    //Sleep(2.0);
     }
 
     /*float last_x = 0;
@@ -222,40 +251,53 @@ int main(void)
             new WaitForLight(),
             // Read Light
             //new DriveDistance(7.5, 30),
-            //new GoToY(16, 45, 100, false),
-            new DriveDistance(8, 45),
+            new GoToY(20.5, -25, .1, false),
+            //new DriveDistance(8.5, 45),
+            //new DriveDistance(-12.5, 45),
+            //new DriveTime(.5, 0),
             new Orient(180),
             //new GoToX(16, 25),
             new ReadLight(),
+            new GoToX(22, 30, 1, false),
+            new Satellite(),
             // Satellite Dish
             //new GoToX(25, 45, 2, false),
             //new Orient(170, false),
             //new DriveTime(2.5, 45),
             //new GoToX(19, -35, 1, false),
-            new Satellite(),
+            //new Satellite(),
+            //new Orient(165),
+            new DriveTime(1.5, 45),
+            new GoToX(20, -40, .2, true),
             // Drive up ramp.
-            new Orient(90, false),
-            new DriveDistance(25, -45),
+            new Orient(90),
+            new DriveDistance(26, -45),
             // Pull lever.
-            new DriveTime(1, 0),
-            new GoToY(44.7, -15, .2, false),
-            new Orient(180, false),
-            new DriveTime(2.5, -16),
+            new DriveTime(.6, 0),
+            new GoToY(43.5, -25, .1),
+            new Orient(180),
+            //new GoToX(9.5, -30, .4, false),
+            new DriveTime(2, -16),
             new MoveServo(70),
             // Complete the Top Level
-            new DriveDistance(3,40),
-            new Orient(284),
-            new DriveDistance(14, 40),
+            new DriveDistance(2.5, 25),
+            new Orient(288),
+            new DriveDistance(17.3, 30),
+            //new DriveDistance(.5, 30),
             new TopLevel(),
-            new DriveDistance(-21, 45),
+            new DriveDistance(-3, 25),
+            new DriveDistance(-10, 45),
+            new GoToX(24, -35, .2, false),
             new MoveServo(180),
             new MoveServo(180),
-            new MoveServo(180),
-            new Orient(90, false),
-            new DriveTime(1, -45),
+            new Orient(90, true),
+            new DriveTime(1, -40),
             new DriveTime(6, -25),
+            //new Orient(90, false),
+            //new Orient(85, false),
             new DriveDistance(19, 45),
-            new DriveDistance(25, 25),
+            new Orient(80),
+            new DriveDistance(25, 45),
             //new GoToY(45, 40, 2),
             // Drve downramp
             //new Orient(50),
@@ -265,10 +307,10 @@ int main(void)
             //new DriveDistance(25, 25),
             // Deposit Core
             new DepositCore(),
-            new Orient(90, false),
-            new MoveServo(115),
-            new DriveTime(1, 45),
-            new DriveDistance(-5, 45),
+            new Orient(90),
+            new MoveServo(107),
+            new DriveTime(1, 40),
+            new DriveDistance(-5, 40),
             //new MoveServo(180),
             // Push final button
             //new GoToY(15, 30, 1),

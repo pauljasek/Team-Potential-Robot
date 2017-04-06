@@ -21,7 +21,7 @@ GoToX::GoToX(float x, float power)
     waited = false;
     previous_power = MIN_POWER;
     previous_distance = 0;
-    Tolerance = .4;
+    Tolerance = .2;
     ChangeOrientation = true;
 }
 
@@ -52,6 +52,14 @@ GoToX::GoToX(float x, float power, float tolerance, bool orient)
 void GoToX::Init(Robot& robot) {
     TaskExecutor executor;
 
+    robot.WaitForRPS();
+    robot.Update();
+
+    /*if (RPS.Y() == -1)
+    {
+        return;
+    }*/
+
     float distance = X - robot.GetX();
 
 
@@ -79,16 +87,29 @@ void GoToX::Init(Robot& robot) {
         Power *= -1;
     }
 
+    if (ChangeOrientation)
+    {
+        robot.WaitForRPS();
+    }
+
     previous_distance = X - robot.GetX();
 
     StartY = robot.GetY();
 
     robot.DriveStraight(previous_distance, Power);
-    Sleep(.3);
+    //Sleep(.3);
 }
 
 bool GoToX::Run(Robot& robot)
 {
+    robot.WaitForRPS();
+    robot.Update();
+
+    /*if (RPS.Y() == -1)
+    {
+        return true;
+    }*/
+
     float distance = X - robot.GetX();
 
     /*if (abs(distance) > 7)
@@ -100,11 +121,23 @@ bool GoToX::Run(Robot& robot)
     }*/
     if (abs(distance) > Tolerance)
     {
-        robot.DriveStraight(distance*2/5.0, 13 * Power/abs(Power));
-        Sleep(.1);
+        float power = 13 * Power/abs(Power);//Power/2;
+        /*if (power > 0 && power < 15)
+        {
+            power = 15;
+        }
+        else if (power < 0 && power > -15)
+        {
+            power = -15;
+        }*/
+        robot.DriveStraight(distance, power);
+        //Sleep(.1);
+        //robot.WaitForRPS();
+        //return true;
         return false;
     }
-    else
+    return true;
+    /*else
     {
         if (waited)
         {
@@ -112,11 +145,12 @@ bool GoToX::Run(Robot& robot)
         }
         else
         {
-            Sleep(.1);
+            //Sleep(.1);
+
             waited = true;
-            return false;
+            return true;
         }
-    }
+    }*/
 }
 
 /*bool GoToX::Run(Robot &robot) {
@@ -168,8 +202,8 @@ void GoToX::Finish(Robot& robot)
     robot.RightMotor.Stop();
     robot.LeftMotor.Stop();
 
-    robot.Update();
-    LCD.WriteLine(robot.GetX());
+    //robot.Update();
+    //LCD.WriteLine(robot.GetX());
 }
 
 bool GoToX::isEnd()

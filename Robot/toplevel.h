@@ -8,6 +8,7 @@
 #include <taskexecutor.h>
 #include <FEHUtility.h>
 #include <orient.h>
+#include <drivedistance.h>
 
 class TopLevel : public Task
 {

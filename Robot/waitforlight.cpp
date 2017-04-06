@@ -6,16 +6,17 @@ WaitForLight::WaitForLight()
      * Initializes variable values.
      */
     PreviousValue = 0;
-    Checks = 0;
+    EndTime = 0;
 }
 
 void WaitForLight::Init(Robot& robot)
 {
+    robot.Update();
     /*
      * Remembers starting value of CdS cell.
      */
     PreviousValue = robot.GetCdSCellValue();
-    Checks = 0;
+    EndTime = TimeNow() + 45;
 }
 
 bool WaitForLight::Run(Robot& robot)
@@ -24,10 +25,10 @@ bool WaitForLight::Run(Robot& robot)
      * Waits .2 seconds and returns completion if enough time has elapsed or change in CdS reading is large enough.
      */
     Sleep(.2);
-    bool start = Checks > 75 || PreviousValue - robot.GetCdSCellValue() > .3;
-    PreviousValue = robot.GetCdSCellValue();
+    float cds_value = robot.CdSCell.Value();
+    bool start = TimeNow() > EndTime || PreviousValue - cds_value > .3;
+    PreviousValue = cds_value;
 
-    Checks++;
     return start;
 }
 

@@ -26,6 +26,7 @@ public:
     void PIDDrive(float, float);
     void DriveTime(float, float);
     void Turn(float, float);
+    void WaitForRPS();
     float GetX();
     float GetY();
     float GetHeading();

@@ -11,7 +11,7 @@ void ReadLight::Init(Robot& robot)
 
 bool ReadLight::Run(Robot& robot)
 {
-    float cds_value = robot.DriveStraightReadLight(8, 45);
+    float cds_value = robot.DriveStraightReadLight(10, 35);
     LCD.WriteLine(cds_value);
     if(cds_value < 1)
     {

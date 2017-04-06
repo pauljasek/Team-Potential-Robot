@@ -13,7 +13,7 @@ public:
     bool isEnd();
 private:
     float PreviousValue;
-    int Checks;
+    float EndTime;
 };
 
 #endif // WAITFORLIGHT_H

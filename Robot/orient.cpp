@@ -25,8 +25,7 @@ Orient::Orient(float orientation, bool check)
 
 void Orient::Init(Robot& robot) {
 
-    Sleep(.15);
-
+    robot.WaitForRPS();
     robot.Update();
 
     float desired_heading = Orientation;
@@ -44,20 +43,22 @@ void Orient::Init(Robot& robot) {
         previous_difference += 360;
     }
 
-    if (previous_difference < 0)
+    /*if (previous_difference < 0)
     {
         previous_difference += 1;
     }
     if (previous_difference > 0)
     {
         previous_difference -= 1;
-    }
+    }*/
 
-    robot.Turn(previous_difference, 20);
+    LCD.WriteLine(previous_difference);
+
+    robot.Turn(previous_difference, 30);
 
     if (Check)
     {
-        Sleep(.15);
+        robot.WaitForRPS();
     }
 }
 
@@ -67,6 +68,13 @@ bool Orient::Run(Robot& robot)
     {
         return true;
     }
+
+    Sleep(.15);
+    robot.Update();
+
+    if (false) {
+    robot.WaitForRPS();
+    robot.Update();
 
     float desired_heading = Orientation;
     if (desired_heading <= -180)
@@ -83,46 +91,47 @@ bool Orient::Run(Robot& robot)
         heading_difference += 360;
     }
 
-    if (heading_difference < -1)
+    if (abs(heading_difference) > 1)
     {
-        if (heading_difference > -15)
-        {
-            robot.Turn(-.5, 20);
-            Sleep(.15);
-        }
-        else
-        {
-            robot.Turn(-.5, 20);
-            waited = false;
-        }
+        robot.Turn(heading_difference, 20);
+        return false;
     }
-    else if (heading_difference > 1)
-    {
-        if (heading_difference < 15)
-        {
-            robot.Turn(.5,18);
-            Sleep(.15);
-        }
-        else
-        {
-            robot.Turn(.5, 20);
-            waited = false;
-        }
+
+    return true;
     }
     else
     {
-        if (waited)
+        robot.Update();
+
+        float desired_heading = Orientation;
+        if (desired_heading <= -180)
         {
-            return true;
+            desired_heading += 360;
         }
-        else
+        float heading_difference = desired_heading - robot.GetHeading();
+        if (heading_difference > 180)
         {
-            waited = true;
-            Sleep(.15);
-            return false;
+            heading_difference -= 360;
         }
+        if (heading_difference <= -180)
+        {
+            heading_difference += 360;
+        }
+
+        if (heading_difference < -1)
+        {
+                robot.Turn(-.5, 18);
+                return false;
+        }
+        else if (heading_difference > 1)
+        {
+                robot.Turn(.5,18);
+                return false;
+        }
+
     }
-    return false;
+
+    return true;
 }
 
 /*bool Orient::Run(Robot &robot)

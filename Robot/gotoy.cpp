@@ -15,7 +15,7 @@ GoToY::GoToY(float y, float power)
     positive = false;
     waited = false;
     previous_power = MIN_POWER;
-    Tolerance = .4;
+    Tolerance = .2;
     ChangeOrientation = true;
 }
 
@@ -44,7 +44,16 @@ GoToY::GoToY(float y, float power, float tolerance, bool orient)
 void GoToY::Init(Robot& robot) {
     TaskExecutor executor;
 
+    robot.WaitForRPS();
+    robot.Update();
+
+    /*if (RPS.Y() == -1)
+    {
+        return;
+    }*/
+
     float distance = Y - robot.GetY();
+    LCD.WriteLine(robot.GetY());
 
 
     if (distance * Power < 0)
@@ -71,13 +80,18 @@ void GoToY::Init(Robot& robot) {
         Power *= -1;
     }
 
+    if (ChangeOrientation)
+    {
+        robot.WaitForRPS();
+    }
+
     previous_distance = Y - robot.GetY();
 
     StartX = robot.GetX();
 
     robot.DriveStraight(previous_distance, Power);
 
-    Sleep(.3);
+    //Sleep(.3);
 
     /*robot.DriveFast(distance * Power/abs(Power));
     Sleep(.3);*/
@@ -85,7 +99,14 @@ void GoToY::Init(Robot& robot) {
 
 bool GoToY::Run(Robot& robot)
 {
+    robot.WaitForRPS();
+    robot.Update();
+    if (RPS.Y() == -1)
+    {
+        return true;
+    }
     float distance = Y - robot.GetY();
+    LCD.WriteLine(robot.GetY());
     /*if (abs(distance) > 7)
     {
         waited = false;
@@ -95,11 +116,22 @@ bool GoToY::Run(Robot& robot)
     }*/
     if (abs(distance) > Tolerance)
     {
-        robot.DriveStraight(distance*2/5.0, 13 * Power/abs(Power));
-        Sleep(.1);
-        return false;
+        /*float power = Power/2;
+        if (power > 0 && power < 15)
+        {
+            power = 15;
+        }
+        else if (power < 0 && power > -15)
+        {
+            power = -15;
+        }*/
+        float power = 13 * Power/abs(Power);
+        robot.DriveStraight(distance, power);
+        //Sleep(.1);
+        //robot.WaitForRPS();
+        //return true;
     }
-    else
+    /*else
     {
         if (waited)
         {
@@ -107,11 +139,12 @@ bool GoToY::Run(Robot& robot)
         }
         else
         {
-            Sleep(.1);
+            //Sleep(.1);
             waited = true;
-            return false;
+            return true;
         }
-    }
+    }*/
+    return true;
 }
 
 /*bool GoToY::Run(Robot& robot)
