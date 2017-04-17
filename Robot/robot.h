@@ -19,11 +19,7 @@ public:
     void SetRightPercent(float);
     void SetLeftPercent(float);
     void DriveStraight(float, float);
-    void DriveArc(float, float, float, float);
-    float Accelerate(float);
-    void DriveFast(float);
     float DriveStraightReadLight(float, float);
-    void PIDDrive(float, float);
     void DriveTime(float, float);
     void Turn(float, float);
     void WaitForRPS();
@@ -54,7 +50,7 @@ private:
     float X;
     float Y;
     float Heading;
-    float CdSCellVallue;
+    float CdSCellValue;
     bool RedLight;
     char RegionLetter;
 };
