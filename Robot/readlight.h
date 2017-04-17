@@ -2,6 +2,7 @@
 #define READLIGHT_H
 
 #include "task.h"
+#include <FEHLCD.h>
 
 class ReadLight : public Task
 {

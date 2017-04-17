@@ -1,9 +1,12 @@
 #ifndef GOTOX_H
 #define GOTOX_H
 
+#include "task.h"
 #include <FEHLCD.h>
 #include <FEHMotor.h>
-#include "task.h"
+#include <math.h>
+#include <orient.h>
+#include <taskexecutor.h>
 
 class GoToX : public Task
 {

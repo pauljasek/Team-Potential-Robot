@@ -1,14 +1,6 @@
-#define PI 3.14159265
-#define RM -1
-#define LM 1
-
-#define MIN_POWER 20
-#define MAX_POWER 20
-#define POWER_CHANGE_FACTOR 2
-#define POWER_DECREASE_FACTOR 5
-
 #include "orient.h"
 
+// Basic constructor specifying RPS orientation
 Orient::Orient(float orientation)
 {
     Orientation = orientation;
@@ -16,6 +8,8 @@ Orient::Orient(float orientation)
     Check = true;
 }
 
+// Overloaded constructor to specify whether or not the check orientation
+// after the initial turn
 Orient::Orient(float orientation, bool check)
 {
     Orientation = orientation;
@@ -24,10 +18,11 @@ Orient::Orient(float orientation, bool check)
 }
 
 void Orient::Init(Robot& robot) {
-
+    // Updates RPS coordinates
     robot.WaitForRPS();
     robot.Update();
 
+    // Calculates the difference in orientation and desired heading
     float desired_heading = Orientation;
     if (desired_heading <= -180)
     {
@@ -43,19 +38,10 @@ void Orient::Init(Robot& robot) {
         previous_difference += 360;
     }
 
-    /*if (previous_difference < 0)
-    {
-        previous_difference += 1;
-    }
-    if (previous_difference > 0)
-    {
-        previous_difference -= 1;
-    }*/
-
-    LCD.WriteLine(previous_difference);
-
+    // Turns to the calculated angle using encoders
     robot.Turn(previous_difference, 30);
 
+    // If a check is desired, waits for the RPS coordinates to stabilize.
     if (Check)
     {
         robot.WaitForRPS();
@@ -64,18 +50,17 @@ void Orient::Init(Robot& robot) {
 
 bool Orient::Run(Robot& robot)
 {
+    // If no check is required, exits the loop
     if (!Check)
     {
         return true;
     }
 
+    // Otherwise, updates RPS coordinates
     Sleep(.15);
     robot.Update();
 
-    if (false) {
-    robot.WaitForRPS();
-    robot.Update();
-
+    // Calculates the difference between the current heading and the desired orientation
     float desired_heading = Orientation;
     if (desired_heading <= -180)
     {
@@ -91,116 +76,26 @@ bool Orient::Run(Robot& robot)
         heading_difference += 360;
     }
 
-    if (abs(heading_difference) > 1)
+    // If |difference| > 1, turns the required distance
+    if (heading_difference < -1)
     {
-        robot.Turn(heading_difference, 20);
-        return false;
+            robot.Turn(-.5, 18);
+            return false;
     }
-
-    return true;
-    }
-    else
+    else if (heading_difference > 1)
     {
-        robot.Update();
-
-        float desired_heading = Orientation;
-        if (desired_heading <= -180)
-        {
-            desired_heading += 360;
-        }
-        float heading_difference = desired_heading - robot.GetHeading();
-        if (heading_difference > 180)
-        {
-            heading_difference -= 360;
-        }
-        if (heading_difference <= -180)
-        {
-            heading_difference += 360;
-        }
-
-        if (heading_difference < -1)
-        {
-                robot.Turn(-.5, 18);
-                return false;
-        }
-        else if (heading_difference > 1)
-        {
-                robot.Turn(.5,18);
-                return false;
-        }
-
+            robot.Turn(.5,18);
+            return false;
     }
-
+    // Otherwise, exits the loop, because the heading is within the required tolerance.
     return true;
 }
 
-/*bool Orient::Run(Robot &robot)
-{
-    float desired_heading = Orientation;
-    if (desired_heading <= -180)
-    {
-        desired_heading += 360;
-    }
-    float heading_difference = desired_heading - robot.GetHeading();
-    if (heading_difference > 180)
-    {
-        heading_difference -= 360;
-    }
-    if (heading_difference <= -180)
-    {
-        heading_difference += 360;
-    }
-
-    float predicted_difference = (heading_difference - previous_difference) + heading_difference;
-
-    if (abs(heading_difference) < 1)
-    {
-        return true;
-    }
-
-    float power = abs(heading_difference)*2.0;
-    if(power > MAX_POWER)
-    {
-        power = MAX_POWER;
-    }
-    if(power < MIN_POWER)
-    {
-        power = MIN_POWER;
-    }
-
-    if(power > previous_power + POWER_CHANGE_FACTOR)
-    {
-        power = previous_power + POWER_CHANGE_FACTOR;
-    }
-
-    if(power < previous_power - POWER_DECREASE_FACTOR)
-    {
-        power = previous_power - POWER_DECREASE_FACTOR;
-    }
-
-    previous_power = power;
-    previous_difference = heading_difference;
-
-    LCD.WriteLine(heading_difference);
-
-    if (heading_difference < 0)
-    {
-        robot.Turn(-.5,power);
-    }
-    else if (heading_difference > 0)
-    {
-        robot.Turn(.5,power);
-    }
-
-    return false;
-}*/
-
 void Orient::Finish(Robot& robot)
 {
+    // Stops the motors, if required.
     robot.RightMotor.Stop();
     robot.LeftMotor.Stop();
-
-    //LCD.WriteLine(robot.GetHeading());
 }
 
 bool Orient::isEnd()

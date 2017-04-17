@@ -2,6 +2,14 @@
 #define SATELLITE_H
 
 #include "task.h"
+#include "drivedistance.h"
+#include "drivetime.h"
+#include <taskexecutor.h>
+#include <gotox.h>
+#include <gotoy.h>
+#include <orient.h>
+#include <moveservo.h>
+#include <robot.h>
 
 class Satellite : public Task
 {

@@ -1,6 +1,8 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+#include <math.h>
+
 #include <FEHMotor.h>
 #include <FEHLCD.h>
 #include <FEHIO.h>
@@ -8,8 +10,6 @@
 #include <FEHMotor.h>
 #include <FEHServo.h>
 #include <FEHRPS.h>
-#include <worldstate.h>
-#include <math.h>
 #include <FEHSD.h>
 
 class Robot

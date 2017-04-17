@@ -1,5 +1,7 @@
 #include "end.h"
 
+// Simply a task which tells the executing loop to stop executing tasks
+
 End::End()
 {
 }

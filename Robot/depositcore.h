@@ -3,6 +3,10 @@
 
 #include "task.h"
 #include "drive.h"
+#include "drivedistance.h"
+#include <taskexecutor.h>
+#include <gotox.h>
+#include <gotoy.h>
 
 class DepositCore : public Task
 {

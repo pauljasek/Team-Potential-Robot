@@ -3,7 +3,6 @@
 
 #include "task.h"
 #include <FEHLCD.h>
-#include <string.h>
 
 using namespace std;
 

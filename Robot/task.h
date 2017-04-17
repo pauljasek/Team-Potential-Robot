@@ -5,19 +5,20 @@
 
 /*
  * Task interface.
+ * Each task is required to implement the following functions which are used by the task executor class.
  */
 
 class Task
 {
 public:
     /*
-     * Continuously runs until true is returned.
-     */
-    virtual bool Run(Robot&) = 0;
-    /*
      * Runs once at the beginning of execution.
      */
     virtual void Init(Robot&) = 0;
+    /*
+     * Continuously runs until true is returned.
+     */
+    virtual bool Run(Robot&) = 0;
     /*
      * Runs once at the end of the task execution.
      */

@@ -1,9 +1,12 @@
 #ifndef GOTOY_H
 #define GOTOY_H
 
+#include "task.h"
 #include <FEHLCD.h>
 #include <FEHMotor.h>
-#include "task.h"
+#include <math.h>
+#include <orient.h>
+#include <taskexecutor.h>
 
 class GoToY : public Task
 {

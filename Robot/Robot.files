@@ -1,8 +1,5 @@
-component.h
 depositcore.cpp
 depositcore.h
-drive.cpp
-drive.h
 drivedistance.cpp
 drivedistance.h
 drivetime.cpp
@@ -25,9 +22,6 @@ robot.cpp
 robot.h
 satellite.cpp
 satellite.h
-sensor.h
-servo.cpp
-servo.h
 task.h
 main.cpp
 taskexecutor.cpp
@@ -38,5 +32,3 @@ waitforlight.cpp
 waitforlight.h
 waitfortouch.cpp
 waitfortouch.h
-worldstate.cpp
-worldstate.h

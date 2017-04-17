@@ -11,11 +11,17 @@ WaitForLight::WaitForLight()
 
 void WaitForLight::Init(Robot& robot)
 {
+    /*
+     * Updates the robot's CdS Cell value.
+     */
     robot.Update();
     /*
      * Remembers starting value of CdS cell.
      */
     PreviousValue = robot.GetCdSCellValue();
+    /*
+     * Sets the timeout time.
+     */
     EndTime = TimeNow() + 45;
 }
 
@@ -28,12 +34,12 @@ bool WaitForLight::Run(Robot& robot)
     float cds_value = robot.CdSCell.Value();
     bool start = TimeNow() > EndTime || PreviousValue - cds_value > .3;
     PreviousValue = cds_value;
-
     return start;
 }
 
 void WaitForLight::Finish(Robot& robot)
 {
+    // No finishing action
 }
 
 bool WaitForLight::isEnd()
