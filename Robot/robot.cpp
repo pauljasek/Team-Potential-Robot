@@ -488,7 +488,7 @@ float Robot::GetHeading()
  */
 float Robot::GetCdSCellValue()
 {
-    return CdSCellVallue;
+    return CdSCellValue;
 }
 
 /*
@@ -508,7 +508,7 @@ void Robot::Update()
     Y -= 6.5 * dy;
 
     // CdS Cell value
-    CdSCellVallue = CdSCell.Value();
+    CdSCellValue = CdSCell.Value();
 }
 
 void Robot::LogReport()
@@ -518,5 +518,5 @@ void Robot::LogReport()
 
     // Write row out to the log
     SD.Printf(logRow,
-             TimeNow(), ArmBumper.Value(), CdSCellVallue, X, Y, Heading, RegionLetter);
+             TimeNow(), ArmBumper.Value(), CdSCellValue, X, Y, Heading, RegionLetter);
 }
